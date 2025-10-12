@@ -4,88 +4,57 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Calculator_.src"
-        mc:Ignorable="d"
+		mc:Ignorable="d"
 		SizeToContent="WidthAndHeight"
 		>
-	<Window.Resources>
-		<Style x:Key="FocusVisual">
-			<Setter Property="Control.Template">
-				<Setter.Value>
-					<ControlTemplate>
-						<Rectangle Margin="2" StrokeDashArray="1 2" Stroke="{DynamicResource {x:Static SystemColors.ControlTextBrushKey}}" SnapsToDevicePixels="true" StrokeThickness="1"/>
-					</ControlTemplate>
-				</Setter.Value>
-			</Setter>
-		</Style>
-		<SolidColorBrush x:Key="Button.Static.Background" Color="#FFDDDDDD"/>
-		<SolidColorBrush x:Key="Button.Static.Border" Color="#FF707070"/>
-		<SolidColorBrush x:Key="Button.MouseOver.Background" Color="#FFBEE6FD"/>
-		<SolidColorBrush x:Key="Button.MouseOver.Border" Color="#FF3C7FB1"/>
-		<SolidColorBrush x:Key="Button.Pressed.Background" Color="#FFC4E5F6"/>
-		<SolidColorBrush x:Key="Button.Pressed.Border" Color="#FF2C628B"/>
-		<SolidColorBrush x:Key="Button.Disabled.Background" Color="#FFF4F4F4"/>
-		<SolidColorBrush x:Key="Button.Disabled.Border" Color="#FFADB2B5"/>
-		<SolidColorBrush x:Key="Button.Disabled.Foreground" Color="#FF838383"/>
-		<Style x:Key="RoundedButton" TargetType="{x:Type Button}">
-			<Setter Property="FocusVisualStyle" Value="{StaticResource FocusVisual}"/>
-			<Setter Property="Background" Value="{StaticResource Button.Static.Background}"/>
-			<Setter Property="BorderBrush" Value="{StaticResource Button.Static.Border}"/>
-			<Setter Property="Foreground" Value="{DynamicResource {x:Static SystemColors.ControlTextBrushKey}}"/>
-			<Setter Property="BorderThickness" Value="1"/>
-			<Setter Property="HorizontalContentAlignment" Value="Center"/>
-			<Setter Property="VerticalContentAlignment" Value="Center"/>
-			<Setter Property="Padding" Value="1"/>
-			<Setter Property="Template">
-				<Setter.Value>
-					<ControlTemplate TargetType="{x:Type Button}">
-						<Border x:Name="border" CornerRadius="10" Background="{TemplateBinding Background}" BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}" SnapsToDevicePixels="true">
-							<ContentPresenter x:Name="contentPresenter" Focusable="False" HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}" Margin="{TemplateBinding Padding}" RecognizesAccessKey="True" SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}" VerticalAlignment="{TemplateBinding VerticalContentAlignment}"/>
-						</Border>
-						<ControlTemplate.Triggers>
-							<Trigger Property="IsDefaulted" Value="true">
-								<Setter Property="BorderBrush" TargetName="border" Value="{DynamicResource {x:Static SystemColors.HighlightBrushKey}}"/>
-							</Trigger>
-							<Trigger Property="IsMouseOver" Value="true">
-								<Setter Property="Background" TargetName="border" Value="{StaticResource Button.MouseOver.Background}"/>
-								<Setter Property="BorderBrush" TargetName="border" Value="{StaticResource Button.MouseOver.Border}"/>
-							</Trigger>
-							<Trigger Property="IsPressed" Value="true">
-								<Setter Property="Background" TargetName="border" Value="{StaticResource Button.Pressed.Background}"/>
-								<Setter Property="BorderBrush" TargetName="border" Value="{StaticResource Button.Pressed.Border}"/>
-							</Trigger>
-							<Trigger Property="IsEnabled" Value="false">
-								<Setter Property="Background" TargetName="border" Value="{StaticResource Button.Disabled.Background}"/>
-								<Setter Property="BorderBrush" TargetName="border" Value="{StaticResource Button.Disabled.Border}"/>
-								<Setter Property="TextElement.Foreground" TargetName="contentPresenter" Value="{StaticResource Button.Disabled.Foreground}"/>
-							</Trigger>
-						</ControlTemplate.Triggers>
-					</ControlTemplate>
-				</Setter.Value>
-			</Setter>
-		</Style>
-	</Window.Resources>
 	<StackPanel VerticalAlignment="Center">
 		<Label FontWeight="DemiBold">First Name:</Label>
-		<TextBox Margin="5,0" Width="Auto">John</TextBox>
+		<TextBox Margin="5,0" Width="Auto" IsKeyboardFocusedChanged="FnameTextChanged" Text="{Binding Path=Fname, Mode=TwoWay}"></TextBox>
 		<Label FontWeight="DemiBold">Last Name:</Label>
-		<TextBox Margin="5,0">Smith</TextBox>
-		<Label FontWeight="DemiBold">Sex:</Label>
-		<RadioButton GroupName="sex" IsChecked="True">Male</RadioButton>
-		<RadioButton GroupName="sex">Female</RadioButton>
-		<StackPanel Orientation="Horizontal">
-			<RadioButton GroupName="sex" VerticalContentAlignment="Center">Other</RadioButton>
-			<TextBox MinWidth="10" Margin="5,0" IsEnabled="False" TextAlignment="Right">Non-binary</TextBox>
-		</StackPanel>
+		<TextBox IsKeyboardFocusedChanged="LnameTextChanged" Margin="5,0" Text="{Binding Path=Lname, Mode=TwoWay}"></TextBox>
+		<Label FontWeight="DemiBold">Gender:</Label>
+		<RadioButton Name="MaleButton" GroupName="gender" IsChecked="True">Male</RadioButton>
+		<RadioButton Name="FemaleButton" GroupName="gender">Female</RadioButton>
+		<Grid>
+			<Grid.ColumnDefinitions>
+				<ColumnDefinition Width="1*"></ColumnDefinition>
+				<ColumnDefinition Width="2*"></ColumnDefinition>
+			</Grid.ColumnDefinitions>
+			<RadioButton Grid.Column="0" Name="OtherButton" GroupName="gender" VerticalContentAlignment="Center">Other</RadioButton>
+			<TextBox Grid.Column="1" IsKeyboardFocusedChanged="GenTextChanged" Margin="5,0" IsEnabled="{Binding Path=IsChecked, ElementName=OtherButton}" TextAlignment="Right" Text="{Binding Path=Gender, Mode=TwoWay}"></TextBox>
+		</Grid>
+		<Grid>
+			<Grid.ColumnDefinitions>
+				<ColumnDefinition Width="5*"/>
+				<ColumnDefinition Width="2*"/>
+			</Grid.ColumnDefinitions>
+			<Label Grid.Column="0" FontWeight="DemiBold">Favourite Colour:</Label>
+			<Rectangle Grid.Column="1" Margin="5,0" Fill="{Binding Path=FavouriteColour, Mode=OneWay}"></Rectangle>
+		</Grid>
+		<!-- Minimum is 0xFF000000 and Maximum is 0xFFFFFFFF, as RGB colours are 32 bits with a preceding alpha channel I don't care about-->
+		<Slider ValueChanged="ColourSliderChanged" Margin="5, 0" Minimum="0" Maximum="16777216"></Slider>
 		<Label FontWeight="DemiBold">Username:</Label>
-		<TextBox Margin="5,0,5,5" Width="Auto">TheLegend27</TextBox>
+		<TextBox Margin="5,0,5,5" Width="Auto" IsKeyboardFocusedChanged="UsernameTextChanged" Text="{Binding Path=Username, Mode=TwoWay}"></TextBox>
 		<StackPanel Orientation="Horizontal">
-		<Label FontWeight="DemiBold">Age:</Label>
-			<TextBox TextAlignment="Center" VerticalContentAlignment="Center" Height="20">
-				100
-			</TextBox>
+			<Label FontWeight="DemiBold">Date of Birth:</Label>
+			<DatePicker SelectedDate="{Binding DOB}">
+			</DatePicker>
 		</StackPanel>
-		<Button Style="{DynamicResource RoundedButton}" Click="FormSubmit">
+		<Label FontWeight="DemiBold">Credit/Debit Card Number:</Label>
+		<TextBox Margin="5,0,5,5" IsKeyboardFocusedChanged="CCNTextChanged" Text="{Binding Path=CCN, Mode=TwoWay}"></TextBox>
+		<Label FontWeight="DemiBold">Credit/Debit Card Expiry Date:</Label>
+		<StackPanel Orientation="Horizontal">
+			<ComboBox Name="Days">
+			</ComboBox>
+			<TextBlock FontWeight="Bold" Text="/"></TextBlock>
+			<ComboBox Name="Months" SelectionChanged="MonthsSelectionChanged">
+			</ComboBox>
+		</StackPanel>
+		<Label FontWeight="DemiBold">CVC:</Label>
+		<TextBox Margin="5,0,5,5" IsKeyboardFocusedChanged="CVCTextChanged" Text="{Binding Path=CVC, Mode=TwoWay}"></TextBox>
+		<Button Click="FormSubmit">
 			Submit
 		</Button>
 	</StackPanel>
+	
 </Window>
