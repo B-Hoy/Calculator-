@@ -22,11 +22,11 @@ namespace Calculator_
 				this.Width = SystemParameters.WorkArea.Width / 4 * 3;
                 this.Height = this.Width / 16 * 9;
 			}
-            SQLiteCommand tableProbe = Database.Hook.CreateCommand();
-            tableProbe.CommandText = """SELECT count(name) FROM sqlite_master WHERE type = 'table'""";
+            SQLiteCommand tableProbe = Database.RawHook.CreateCommand();
+            tableProbe.CommandText = "SELECT count(id) FROM Users;";
             bool result = Convert.ToBoolean(tableProbe.ExecuteScalar());
             if (!result){
-				UserProfile initData = new()
+				UserProfile initData = new(true)
 				{
 					Title = "Create first user"
 				};

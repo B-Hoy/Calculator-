@@ -1,12 +1,25 @@
 ﻿using System.ComponentModel;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Drawing;
 using System.Windows.Media;
+using Colour = System.Windows.Media.Color;
 using Colours = System.Windows.Media.Colors;
-using SolidColourBrush = System.Windows.Media.SolidColorBrush;
 namespace Calculator_.src
 {
 	internal class User : INotifyPropertyChanged
 	{
+		int id;
+		public int ID{
+			get{
+				return this.id;
+			}
+			set{
+				if (this.id != value)
+				{
+					id = value;
+				}
+			}
+		}
 		private string fname;
 		public string Fname{ 
 		get
@@ -134,8 +147,19 @@ namespace Calculator_.src
 				}
 			}
 		}
-		public SolidColorBrush favcolour;
-		public SolidColorBrush FavouriteColour
+		public bool isactiveuser;
+		public bool IsActiveUser{
+			get{
+				return this.isactiveuser;
+			}
+			set{
+				if (this.isactiveuser != value){
+					this.isactiveuser = value;
+				}
+			}
+		}
+		public int favcolour;
+		public int FavouriteColour
 		{
 			get{
 				return this.favcolour;
@@ -143,10 +167,19 @@ namespace Calculator_.src
 			set{
 				if (this.favcolour != value){
 					this.favcolour = value;
+					this.SendNotif("BrushColour");
 				}
 			}
 		}
+		public Colour BrushColour{
+			get
+			{
+				byte[] temp = BitConverter.GetBytes(this.favcolour);
+				return Colour.FromRgb(temp[2], temp[1], temp[0]);
+			}
+		}
 		public User(){
+			id = 0;
 			fname = "John";
 			lname = "Smith";
 			gender = "Non-binary";
@@ -155,7 +188,8 @@ namespace Calculator_.src
 			cvc = "123";
 			username = "thelegend27";
 			dob = "2000-01-01";
-			favcolour = new(Colours.Black);
+			favcolour = 0;
+			isactiveuser = true;
 		}
 
 		public event PropertyChangedEventHandler? PropertyChanged;

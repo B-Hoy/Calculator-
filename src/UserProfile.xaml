@@ -5,9 +5,11 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Calculator_.src"
 		mc:Ignorable="d"
+		x:Name="UserProfileWin"
 		SizeToContent="WidthAndHeight"
 		>
 	<StackPanel VerticalAlignment="Center">
+		
 		<Label FontWeight="DemiBold">First Name:</Label>
 		<TextBox Margin="5,0" Width="Auto" IsKeyboardFocusedChanged="FnameTextChanged" Text="{Binding Path=Fname, Mode=TwoWay}"></TextBox>
 		<Label FontWeight="DemiBold">Last Name:</Label>
@@ -29,7 +31,11 @@
 				<ColumnDefinition Width="2*"/>
 			</Grid.ColumnDefinitions>
 			<Label Grid.Column="0" FontWeight="DemiBold">Favourite Colour:</Label>
-			<Rectangle Grid.Column="1" Margin="5,0" Fill="{Binding Path=FavouriteColour, Mode=OneWay}"></Rectangle>
+			<Rectangle Grid.Column="1" Margin="5,0">
+				<Rectangle.Fill>
+					<SolidColorBrush Color="{Binding Path=BrushColour, Mode=OneWay}"/>
+				</Rectangle.Fill>
+			</Rectangle>
 		</Grid>
 		<!-- Minimum is 0xFF000000 and Maximum is 0xFFFFFFFF, as RGB colours are 32 bits with a preceding alpha channel I don't care about-->
 		<Slider ValueChanged="ColourSliderChanged" Margin="5, 0" Minimum="0" Maximum="16777216"></Slider>

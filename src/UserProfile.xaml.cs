@@ -1,10 +1,15 @@
 ﻿using System.ComponentModel;
+using System.Data.SQLite;
 using System.Diagnostics;
 using System.Drawing;
 using System.Runtime.InteropServices;
+using System.Text.RegularExpressions;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Media;
 using Colour = System.Windows.Media.Color;
+using Colours = System.Windows.Media.Colors;
+
 
 namespace Calculator_.src
 {
@@ -26,8 +31,11 @@ namespace Calculator_.src
 		private bool WipedCCN;
 		private bool WipedCVC;
 
-		public UserProfile()
+		private readonly bool FirstUser;
+
+		public UserProfile(bool f)
 		{
+			FirstUser = f;
 			InitializeComponent();
 			Loaded += this.DisableWindowClosing;
 			NewUser = new();
@@ -62,6 +70,32 @@ namespace Calculator_.src
 			if (!this.ButtonPressed){
 				return;
 			}
+			Regex cardNum = new("^[0-9]{4}(-[0-9]{4}){3}$");
+			if (!cardNum.IsMatch(NewUser.CCN)){
+				MessageBox.Show("Credit Card Number is invalid, please try again");
+				return;
+			}
+			Regex cardCode = new("^[0-9]{3}$");
+			if (!cardCode.IsMatch(NewUser.CVC)){
+				MessageBox.Show("CVC is invalid, please try again");
+				return;
+			}
+			// assign gender
+			
+			RadioButton b1 = (RadioButton)this.FindName("MaleButton");
+			RadioButton b2 = (RadioButton)this.FindName("MaleButton");
+			if (b1.IsChecked != null && b2.IsChecked == true)
+			{
+				NewUser.Gender = "Male";
+			}
+			else if (b1.IsChecked != null && b2.IsChecked == true)
+			{
+				NewUser.Gender = "Female";
+			}
+			Database.EFHook.Users.Add(NewUser);
+			Database.EFHook.SaveChanges();
+			// we need save changes to actually write to the database
+			e.Cancel = false;
 		}
 		private void GenTextChanged(object sender, DependencyPropertyChangedEventArgs e){
 			if (!this.WipedGender)
@@ -125,12 +159,8 @@ namespace Calculator_.src
 		private void ColourSliderChanged(object sender, RoutedPropertyChangedEventArgs<double> e){
 			if (PastConstructor)
 			{
+				NewUser.FavouriteColour = Convert.ToInt32(e.NewValue);
 
-				byte[] bytes = BitConverter.GetBytes(Convert.ToInt32(e.NewValue));
-				NewUser.FavouriteColour.Color = Colour.FromRgb(bytes[2], bytes[1], bytes[0]);
-				//MessageBox.Show(bytes[0].ToString("X") + "|" + bytes[1].ToString("X") + "|" + bytes[2].ToString("X") + "|" + bytes[3].ToString("X"));
-				//int t = (int)e.NewValue;
-				//MessageBox.Show(e.NewValue.ToString());
 			}
 		}
 		private void UsernameTextChanged(object sender, DependencyPropertyChangedEventArgs e)
@@ -147,6 +177,5 @@ namespace Calculator_.src
 			this.Close();
 			this.ButtonPressed = false;
 		}
-
 	}
 }
