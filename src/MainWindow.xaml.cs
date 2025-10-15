@@ -78,7 +78,18 @@ namespace Calculator_
 
         private void Purchase_Click(object sender, RoutedEventArgs e)
         {
-            // API intergration later.
+            
+            System.Diagnostics.Process.Start(new System.Diagnostics.ProcessStartInfo
+            {
+                FileName = "https://buy.stripe.com/test_fZuaEW6QX1AGfSH3Z500000",
+                UseShellExecute = true
+            });
+
+            MessageBoxResult result = MessageBox.Show("Have you completed your purchase? Click OK to unlock more digits.", "Purchase", MessageBoxButton.OKCancel, MessageBoxImage.Question);
+            if (result == MessageBoxResult.OK)
+            {
+                UnlockedDigits++;
+            }
         }
 
         private void Equals_Click(object sender, RoutedEventArgs e)
