@@ -18,10 +18,9 @@ namespace Calculator_.src
 	/// </summary>
 	public partial class UserProfile : Window
 	{
-		private readonly int[] daysArr = [31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31];
 		private readonly User NewUser;
 		private readonly ComboBox months;
-		private readonly ComboBox days;
+		private readonly ComboBox years;
 		private bool PastConstructor = false;
 		private bool ButtonPressed = false;
 		private bool WipedFname;
@@ -30,7 +29,8 @@ namespace Calculator_.src
 		private bool WipedUsername;
 		private bool WipedCCN;
 		private bool WipedCVC;
-
+		private int Month = 1;
+		private int Year = 30;
 		private readonly bool FirstUser;
 
 		public UserProfile(bool f)
@@ -50,16 +50,16 @@ namespace Calculator_.src
 				months.Items.Add(i);
 			}
 			months.SelectedItem = months.Items[0];
-			temp = (ComboBox?)this.FindName("Days");
+			temp = (ComboBox?)this.FindName("Years");
 			if (temp == null){
-				Utils.ExitError("Could not determine location of \"Days\" field", 2);
+				Utils.ExitError("Could not determine location of \"Years\" field", 2);
 			}
-			days = temp!;
-			for (int i = 1; i <= 31; i++)
+			years = temp!;
+			for (int i = 1; i <= 12; i++)
 			{
-				days.Items.Add(i);
+				years.Items.Add(i);
 			}
-			days.SelectedItem = days.Items[0];
+			years.SelectedItem = years.Items[0];
 			PastConstructor = true;
 		}
 		protected override void OnClosing(CancelEventArgs e)
@@ -81,7 +81,7 @@ namespace Calculator_.src
 				return;
 			}
 			// assign gender
-			
+			NewUser.CCE = $"{(int)months.SelectedValue}/{(int)years.SelectedValue}";
 			RadioButton b1 = (RadioButton)this.FindName("MaleButton");
 			RadioButton b2 = (RadioButton)this.FindName("MaleButton");
 			if (b1.IsChecked != null && b2.IsChecked == true)
@@ -110,26 +110,6 @@ namespace Calculator_.src
 			{
 				this.WipedCVC = true;
 				this.NewUser.CVC = "";
-			}
-		}
-		private void MonthsSelectionChanged(object sender, SelectionChangedEventArgs e){
-			if (PastConstructor)
-			{
-				int amount = daysArr[(int)e.AddedItems[0]! - 1];
-				int prevVal = (int)days.SelectedValue;
-				days.Items.Clear();
-				for (int i = 1; i <= amount; i++)
-				{
-					days.Items.Add(i);
-				}
-				if (prevVal > amount)
-				{
-					days.SelectedItem = days.Items[amount - 1];
-				}
-				else
-				{
-					days.SelectedItem = days.Items[prevVal - 1];
-				}
 			}
 		}
 		private void CCNTextChanged(object sender, DependencyPropertyChangedEventArgs e)

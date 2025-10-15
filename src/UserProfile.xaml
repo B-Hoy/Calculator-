@@ -50,10 +50,10 @@
 		<TextBox Margin="5,0,5,5" IsKeyboardFocusedChanged="CCNTextChanged" Text="{Binding Path=CCN, Mode=TwoWay}"></TextBox>
 		<Label FontWeight="DemiBold">Credit/Debit Card Expiry Date:</Label>
 		<StackPanel Orientation="Horizontal">
-			<ComboBox Name="Days">
+			<ComboBox Name="Months">
 			</ComboBox>
 			<TextBlock FontWeight="Bold" Text="/"></TextBlock>
-			<ComboBox Name="Months" SelectionChanged="MonthsSelectionChanged">
+			<ComboBox Name="Years">
 			</ComboBox>
 		</StackPanel>
 		<Label FontWeight="DemiBold">CVC:</Label>
