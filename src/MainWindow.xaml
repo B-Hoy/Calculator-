@@ -63,30 +63,35 @@
                 <RowDefinition Height="*"/>
                 <RowDefinition Height="*"/>
                 <RowDefinition Height="*"/>
+                <RowDefinition Height="*"/>
             </Grid.RowDefinitions>
 
             <Button Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="2" Content="C" FontSize="24" Click="Clear_Click"/>
-            <Button Grid.Row="0" Grid.Column="2" Content="$" FontSize="24" Click="Purchase_Click"/>
-            <Button x:Name="ButtonDivide" Grid.Row="0" Grid.Column="3" Content="/" FontSize="24" Click="Operator_Click" IsEnabled="False"/>
+            <Button Grid.Row="0" Grid.Column="2" Grid.ColumnSpan="2" Content="$" FontSize="24" Click="Purchase_Click"/>
 
-            <Button Grid.Row="1" Grid.Column="0" Content="7" FontSize="24" Click="Number_Click"/>
-            <Button Grid.Row="1" Grid.Column="1" Content="8" FontSize="24" Click="Number_Click"/>
-            <Button Grid.Row="1" Grid.Column="2" Content="9" FontSize="24" Click="Number_Click"/>
-            <Button x:Name="ButtonMultiply" Grid.Row="1" Grid.Column="3" Content="x" FontSize="24" Click="Operator_Click" IsEnabled="False"/>
+            <Button x:Name="ButtonSquared" Grid.Row="1" Grid.Column="0" Content="x²" FontSize="24" Click="Squared_Click" IsEnabled="False"/>
+            <Button x:Name="ButtonSqrt" Grid.Row="1" Grid.Column="1" Content="√x" FontSize="24" Click="Sqrt_Click" IsEnabled="False"/>
+            <Button x:Name="ButtonPercent" Grid.Row="1" Grid.Column="2" Content="%" FontSize="24" Click="Operator_Click" IsEnabled="False"/>
+            <Button x:Name="ButtonDivide" Grid.Row="1" Grid.Column="3" Content="/" FontSize="24" Click="Operator_Click" IsEnabled="False"/>
 
-            <Button Grid.Row="2" Grid.Column="0" Content="4" FontSize="24" Click="Number_Click"/>
-            <Button Grid.Row="2" Grid.Column="1" Content="5" FontSize="24" Click="Number_Click"/>
-            <Button Grid.Row="2" Grid.Column="2" Content="6" FontSize="24" Click="Number_Click"/>
-            <Button Grid.Row="2" Grid.Column="3" Content="-" FontSize="24" Click="Operator_Click"/>
+            <Button Grid.Row="2" Grid.Column="0" Content="7" FontSize="24" Click="Number_Click"/>
+            <Button Grid.Row="2" Grid.Column="1" Content="8" FontSize="24" Click="Number_Click"/>
+            <Button Grid.Row="2" Grid.Column="2" Content="9" FontSize="24" Click="Number_Click"/>
+            <Button x:Name="ButtonMultiply" Grid.Row="2" Grid.Column="3" Content="x" FontSize="24" Click="Operator_Click" IsEnabled="False"/>
 
-            <Button Grid.Row="3" Grid.Column="0" Content="1" FontSize="24" Click="Number_Click"/>
-            <Button Grid.Row="3" Grid.Column="1" Content="2" FontSize="24" Click="Number_Click"/>
-            <Button Grid.Row="3" Grid.Column="2" Content="3" FontSize="24" Click="Number_Click"/>
-            <Button Grid.Row="3" Grid.Column="3" Content="+" FontSize="24" Click="Operator_Click"/>
+            <Button Grid.Row="3" Grid.Column="0" Content="4" FontSize="24" Click="Number_Click"/>
+            <Button Grid.Row="3" Grid.Column="1" Content="5" FontSize="24" Click="Number_Click"/>
+            <Button Grid.Row="3" Grid.Column="2" Content="6" FontSize="24" Click="Number_Click"/>
+            <Button Grid.Row="3" Grid.Column="3" Content="-" FontSize="24" Click="Operator_Click"/>
 
-            <Button Grid.Row="4" Grid.Column="0" Grid.ColumnSpan="2" Content="0" FontSize="24" Click="Number_Click"/>
-            <Button Grid.Row="4" Grid.Column="2" Content="." FontSize="24" Click="Decimal_Click"/>
-            <Button Grid.Row="4" Grid.Column="3" Content="=" FontSize="24" Click="Equals_Click"/>
+            <Button Grid.Row="4" Grid.Column="0" Content="1" FontSize="24" Click="Number_Click"/>
+            <Button Grid.Row="4" Grid.Column="1" Content="2" FontSize="24" Click="Number_Click"/>
+            <Button Grid.Row="4" Grid.Column="2" Content="3" FontSize="24" Click="Number_Click"/>
+            <Button Grid.Row="4" Grid.Column="3" Content="+" FontSize="24" Click="Operator_Click"/>
+
+            <Button Grid.Row="5" Grid.Column="0" Grid.ColumnSpan="2" Content="0" FontSize="24" Click="Number_Click"/>
+            <Button Grid.Row="5" Grid.Column="2" Content="." FontSize="24" Click="Decimal_Click"/>
+            <Button Grid.Row="5" Grid.Column="3" Content="=" FontSize="24" Click="Equals_Click"/>
         </Grid>
     </Grid>
 </Window>

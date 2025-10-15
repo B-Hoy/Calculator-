@@ -1,3 +1,4 @@
+﻿using System.Diagnostics;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media;
@@ -89,7 +90,9 @@ namespace Calculator_
             if (result == MessageBoxResult.OK)
             {
                 UnlockedDigits++;
+                UpdateDefaultStyle();
             }
+            Clear_Click(null, null);
         }
 
         private void Equals_Click(object sender, RoutedEventArgs e)
@@ -97,14 +100,22 @@ namespace Calculator_
             if (currentNumber != "" && !isOperatorClicked && operation != "")
             {
                 double secondNumber = double.Parse(currentNumber);
-                if (operation == "+" && (result + secondNumber) == (result * secondNumber))
+                if (operation == "+" && (result + secondNumber) == (result * secondNumber) && CheckResultLength(result * secondNumber))
                 {
                     ButtonMultiply.IsEnabled = true;
                 }
 
-                if (operation == "-" && (result - secondNumber) == (result / secondNumber))
+                if (operation == "-" && (result - secondNumber) == (result / secondNumber) && CheckResultLength(result / secondNumber))
                 {
                     ButtonDivide.IsEnabled = true;
+                    ButtonPercent.IsEnabled = true;
+                }
+
+
+                if (operation == "x" && (result * secondNumber) == (result * result) && CheckResultLength(result * result))
+                {
+                    ButtonSquared.IsEnabled = true;
+                    ButtonSqrt.IsEnabled = true;
                 }
 
                 switch (operation)
@@ -130,17 +141,16 @@ namespace Calculator_
                             return;
                         }
                         break;
+                    case "%":
+                        result = (result / 100) * secondNumber;
+                        break;
                 }
+
+                if (!CheckResultLength(result)) return;
+
                 currentNumber = result.ToString();
                 UpdateResultDisplay(currentNumber);
                 operation = "";
-
-                if (result.ToString().Split('.')[0].Length > UnlockedDigits)
-                {
-                    MessageBox.Show($"Only {UnlockedDigits} Digit(s) unlocked! Please purchase additonal digits and try again!", "Error.", MessageBoxButton.OK, MessageBoxImage.Warning);
-                    Clear_Click(null, null);
-                    return;
-                }
             }
             isOperatorClicked = false;
         }
@@ -163,8 +173,94 @@ namespace Calculator_
                     currentNumber = "0";
                 }
                 currentNumber += ".";
+                if (currentNumber.Length > UnlockedDigits + 1) // +1 for the decimal point
+                {
+                    MessageBox.Show($"Only {UnlockedDigits} Digit(s) unlocked! Please purchase additonal digits and try again!", "Error.", MessageBoxButton.OK, MessageBoxImage.Warning);
+                    currentNumber = currentNumber.Remove(currentNumber.Length - 1); // remove the decimal point
+                    Clear_Click(null, null);
+                    return;
+                }
                 UpdateResultDisplay(currentNumber);
             }
+        }
+
+        private void Squared_Click(object sender, RoutedEventArgs e)
+        {
+            if (currentNumber != "")
+            {
+                double number = double.Parse(currentNumber);
+                result = number * number;
+
+                currentNumber = result.ToString();
+                if (!CheckResultLength(result)) return;
+                UpdateResultDisplay(currentNumber);
+            }
+        }
+        
+        private void Sqrt_Click(object sender, RoutedEventArgs e)
+        {
+            if (currentNumber != "")
+            {
+                double number = double.Parse(currentNumber);
+                if (number >= 0)
+                {
+                    result = Math.Sqrt(number);
+
+                    currentNumber = result.ToString();
+                    if (!CheckResultLength(result)) return;
+                    UpdateResultDisplay(currentNumber);
+                }
+                else
+                {
+                    MessageBox.Show("Cannot calculate the square root of a negative number");
+                    Clear_Click(null, null);
+                }
+            }
+        }
+
+        /*
+        private void Percent_Click(object sender, RoutedEventArgs e)
+        {
+            if (currentNumber != "")
+            {
+                double number = double.Parse(currentNumber);
+                result = number / 100;
+
+                //if (!CheckResultLength(result)) return;
+
+                currentNumber = result.ToString();
+                UpdateResultDisplay(currentNumber);
+            }
+        }
+
+        */
+
+
+        private bool CheckResultLength(double value)
+        {
+            //string integerPart = value.ToString().Split('.')[0];
+            string integerPart = value.ToString();
+            if (integerPart.StartsWith("-"))
+            {
+                integerPart = integerPart.Substring(1);
+            }
+
+            if (result >= 99999999)
+            {
+                // truncate to 8 digits
+                result = double.Parse(result.ToString().Substring(0, 8));
+            }
+
+            // Debug message to console
+            Debug.WriteLine($"Result length: {integerPart.Length}, UnlockedDigits: {UnlockedDigits}");
+
+            if (integerPart.Length > UnlockedDigits)
+            {
+                MessageBox.Show($"Only {UnlockedDigits} Digit(s) unlocked! Please purchase additonal digits and try again!", "Error.", MessageBoxButton.OK, MessageBoxImage.Warning);
+                Clear_Click(null, null);
+                return false;
+            }
+            return true;
         }
     }
 }
