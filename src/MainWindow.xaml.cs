@@ -50,7 +50,7 @@ namespace Calculator_
 
         private void Number_Click(object sender, RoutedEventArgs e)
         {
-            string buttonContent = (sender as Button).Content.ToString();
+            string buttonContent = ((Button)sender).Content.ToString()!;
             if (currentNumber.Length >= UnlockedDigits && !isOperatorClicked)
             {
                 MessageBox.Show($"Only {UnlockedDigits} Digit(s) unlocked! Please purchase additonal digits and try again!", "Error.", MessageBoxButton.OK, MessageBoxImage.Warning);
@@ -72,7 +72,7 @@ namespace Calculator_
             {
                 result = double.Parse(currentNumber);
                 isOperatorClicked = true;
-                operation = (sender as Button).Content.ToString();
+                operation = ((Button)sender).Content.ToString()!;
                 UpdateResultDisplay(operation);
             }
         }
@@ -155,7 +155,7 @@ namespace Calculator_
             isOperatorClicked = false;
         }
 
-        private void Clear_Click(object sender, RoutedEventArgs e)
+        private void Clear_Click(object? sender, RoutedEventArgs? e)
         {
             currentNumber = "";
             result = 0;
