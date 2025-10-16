@@ -1,3 +1,4 @@
+using Calculator_.src;
 using System.Diagnostics;
 using System.Windows;
 using System.Windows.Controls;
@@ -79,12 +80,11 @@ namespace Calculator_
 
         private void Purchase_Click(object sender, RoutedEventArgs e)
         {
-            
-            System.Diagnostics.Process.Start(new System.Diagnostics.ProcessStartInfo
+            Shop s = new()
             {
-                FileName = "https://buy.stripe.com/test_fZuaEW6QX1AGfSH3Z500000",
-                UseShellExecute = true
-            });
+                Owner = this
+            };
+            s.ShowDialog();
 
             MessageBoxResult result = MessageBox.Show("Have you completed your purchase? Click OK to unlock more digits.", "Purchase", MessageBoxButton.OKCancel, MessageBoxImage.Question);
             if (result == MessageBoxResult.OK)

@@ -1,11 +1,6 @@
 ﻿using Stripe;
 using System.ComponentModel;
-using System.ComponentModel.DataAnnotations.Schema;
-using System.Drawing;
-using System.Windows;
-using System.Windows.Media;
 using Colour = System.Windows.Media.Color;
-using Colours = System.Windows.Media.Colors;
 namespace Calculator_.src
 {
 	internal class User : INotifyPropertyChanged
@@ -179,6 +174,10 @@ namespace Calculator_.src
 				byte[] temp = BitConverter.GetBytes(this.favcolour);
 				return Colour.FromRgb(temp[2], temp[1], temp[0]);
 			}
+		}
+		public void ChargeUserWithPrompt()
+		{
+
 		}
 		public void ChargeUserCard(int cents, string reason){
 			string[] expiry = this.CCE.Split("/");
