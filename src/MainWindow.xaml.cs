@@ -264,6 +264,27 @@ namespace Calculator_
                 return false;
             }
 
+            // if the number is a float with more decimal places than unlocked digits, truncate it
+            // haven't been able to test this yet
+            if (value.ToString().Contains("."))
+            {
+                string[] parts = value.ToString().Split('.');
+                string decimalPart = parts[1];
+                if (decimalPart.Length > UnlockedDigits)
+                {
+                    decimalPart = decimalPart.Substring(0, UnlockedDigits);
+                    value = double.Parse(parts[0] + "." + decimalPart);
+                    currentNumber = value.ToString();
+                    UpdateResultDisplay(currentNumber);
+
+                    // Debug Message to display truncated float
+                    Debug.WriteLine($"Truncated float to {UnlockedDigits} decimal places: {currentNumber}");
+
+
+                    return true;
+                }
+            }
+
             // Debug message to console
             //Debug.WriteLine($"Result length: {integerPart.Length}, UnlockedDigits: {UnlockedDigits}");
 
