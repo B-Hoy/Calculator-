@@ -1,5 +1,4 @@
 ﻿TODO:
-	-Stripe interface
 	-Profile switching:
 		Page has list of users
 		Switch User button at bottom

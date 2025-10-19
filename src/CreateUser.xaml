@@ -1,0 +1,77 @@
+﻿<Window x:Class="Calculator_.src.CreateUser"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:Calculator_.src"
+        mc:Ignorable="d"
+        Title="Create New User"
+        SizeToContent="WidthAndHeight"
+        >
+    <StackPanel Margin="10">
+        <Label FontWeight="SemiBold" Content="Name:"/>
+        <Grid Width="Auto">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*"></ColumnDefinition>
+                <ColumnDefinition Width="*"></ColumnDefinition>
+            </Grid.ColumnDefinitions>
+            <TextBox IsKeyboardFocusedChanged="FocusFirstName"  Width="Auto" Grid.Column="0" Text="{Binding Path=FirstName, Mode=TwoWay}"/>
+            <TextBox IsKeyboardFocusedChanged="FocusLastName" Width="Auto" Grid.Column="1" Text="{Binding Path=LastName, Mode=TwoWay}"/>
+        </Grid>
+        <Label FontWeight="SemiBold" Content="Email:"/>
+        <TextBox IsKeyboardFocusedChanged="EmailChanged" Text="{Binding Path=Email, Mode=TwoWay}"/>
+        <Label FontWeight="SemiBold" Content="Gender:"/>
+        <TextBox IsKeyboardFocusedChanged="FocusGender" Text="{Binding Path=Gender, Mode=TwoWay}"/>
+        <Label FontWeight="SemiBold" Content="Date of birth:"/>
+        <DatePicker Text="{Binding Path=DOB, Mode=TwoWay}"/>
+        <Label FontWeight="SemiBold" Content="Username:"/>
+        <TextBox IsKeyboardFocusedChanged="FocusUsername" Text="{Binding Path=Username, Mode=TwoWay}"/>
+        <StackPanel Orientation="Horizontal">
+            <Label FontWeight="SemiBold" Content="Set To Active User?"/>
+            <CheckBox VerticalAlignment="Center" Content="{Binding Path=WillBeActive, Mode=OneWayToSource}"></CheckBox>
+        </StackPanel>
+        <Label FontWeight="SemiBold" Content="Favourite Colour:"/>
+        <Slider ValueChanged="ColourChanged"  Minimum="0" Maximum="16777216" Background="{Binding Path=SliderColour}">
+        </Slider>
+        <Label Content="Credit Card Info:" FontWeight="SemiBold"/>
+        <DockPanel>
+            <Label FontWeight="SemiBold" Content="CCN"/>
+            <TextBox MinWidth="140" VerticalContentAlignment="Center" IsKeyboardFocusedChanged="FocusCCN" Text="{Binding Path=CCN, Mode=TwoWay}"/>
+        </DockPanel>
+        <StackPanel Orientation="Horizontal">
+            <Label Content="Expiry:" FontWeight="SemiBold"/>
+            <ComboBox Name="CCEMonths" Text="Months">
+                <ComboBoxItem>01</ComboBoxItem>
+                <ComboBoxItem IsSelected="True">02</ComboBoxItem>
+                <ComboBoxItem>03</ComboBoxItem>
+                <ComboBoxItem>04</ComboBoxItem>
+                <ComboBoxItem>05</ComboBoxItem>
+                <ComboBoxItem>06</ComboBoxItem>
+                <ComboBoxItem>07</ComboBoxItem>
+                <ComboBoxItem>08</ComboBoxItem>
+                <ComboBoxItem>09</ComboBoxItem>
+                <ComboBoxItem>10</ComboBoxItem>
+                <ComboBoxItem>11</ComboBoxItem>
+                <ComboBoxItem>12</ComboBoxItem>
+            </ComboBox>
+            <Label Content="/"/>
+            <ComboBox Name="CCEYears" Text="Years">
+                <ComboBoxItem>25</ComboBoxItem>
+                <ComboBoxItem IsSelected="True">26</ComboBoxItem>
+                <ComboBoxItem>27</ComboBoxItem>
+                <ComboBoxItem>28</ComboBoxItem>
+                <ComboBoxItem>29</ComboBoxItem>
+                <ComboBoxItem>30</ComboBoxItem>
+                <ComboBoxItem>31</ComboBoxItem>
+                <ComboBoxItem>32</ComboBoxItem>
+                <ComboBoxItem>33</ComboBoxItem>
+                <ComboBoxItem>34</ComboBoxItem>
+            </ComboBox>
+        </StackPanel>
+        <DockPanel>
+            <Label FontWeight="SemiBold" Content="CVC"/>
+            <TextBox VerticalContentAlignment="Center" IsKeyboardFocusedChanged="FocusCVC" Text="{Binding Path=CVC, Mode=TwoWay}"/>
+        </DockPanel>
+    <Button Margin="0, 15, 0, 0" Click="SubmitPage">Submit!</Button>
+    </StackPanel>
+</Window>

@@ -3,13 +3,61 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:wpf="clr-namespace:CefSharp.Wpf;assembly=CefSharp.Wpf"
         xmlns:local="clr-namespace:Calculator_.src"
         mc:Ignorable="d"
-        Title="Shop" Height="450" Width="800">
-    <Grid>
-        <Border Grid.Row="1" BorderBrush="Gray" BorderThickness="0,1">
-            <wpf:ChromiumWebBrowser x:Name="Store" Address="1.1.1.1"/>
+        SizeToContent="WidthAndHeight"
+        Title="Shop">
+    <Grid Grid.IsSharedSizeScope="True">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition SharedSizeGroup="Col"/>
+            <ColumnDefinition SharedSizeGroup="Col"/>
+            <ColumnDefinition SharedSizeGroup="Col"/>
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition/>
+            <RowDefinition/>
+        </Grid.RowDefinitions>
+        <Border Grid.Row="0" Grid.Column="0" Margin="2" Background="LightGray" BorderBrush="Blue" BorderThickness="1">
+            <StackPanel Orientation="Vertical">
+                <Label HorizontalAlignment="Center" FontWeight="SemiBold" Content="Unlock Additional Digit"></Label>
+                <Label HorizontalAlignment="Center" FontWeight="Bold" Content="$1.99"></Label>
+                <Button Content="Purchase."/>
+            </StackPanel>
+        </Border>
+        <Border Grid.Row="0" Grid.Column="1" Margin="2" Background="LightGray" BorderBrush="Blue" BorderThickness="1">
+            <StackPanel Orientation="Vertical">
+                <Label HorizontalAlignment="Center" FontWeight="SemiBold" Content="Unlock Operator"></Label>
+                <Label HorizontalAlignment="Center" FontWeight="Bold" Content="$0.99-10.99"></Label>
+                <Button Content="Purchase!"/>
+            </StackPanel>
+        </Border>
+        <Border Grid.Row="0" Grid.Column="1" Margin="2" Background="LightGray" BorderBrush="Blue" BorderThickness="1">
+            <StackPanel Orientation="Vertical">
+                <Label HorizontalAlignment="Center" FontWeight="SemiBold" Content="Unlock Operator"></Label>
+                <Label HorizontalAlignment="Center" FontWeight="Bold" Content="$0.99-10.99"></Label>
+                <Button Content="Purchase?"/>
+            </StackPanel>
+        </Border>
+        <Border Grid.Row="0" Grid.Column="2" Margin="2" Background="LightGray" BorderBrush="Blue" BorderThickness="1">
+            <StackPanel Orientation="Vertical">
+                <Label HorizontalAlignment="Center" FontWeight="SemiBold" Content="Unlock Additional Save Slot"></Label>
+                <Label HorizontalAlignment="Center" FontWeight="Bold" Content="$5.98"></Label>
+                <Button Content="Purchase!"/>
+            </StackPanel>
+        </Border>
+        <Border Background="Azure" Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="3" BorderThickness="5">
+            <Border.BorderBrush>
+                <LinearGradientBrush StartPoint="0,0" EndPoint="1,1">
+                    <GradientStop Color="Yellow" Offset="{Binding Path=FirstOffset, Mode=TwoWay}"/>
+                    <GradientStop Color="Red" Offset="{Binding Path=SecondOffset, Mode=TwoWay}"/>
+                    <GradientStop Color="Blue" Offset="{Binding Path=ThirdOffset, Mode=TwoWay}"/>
+                    <GradientStop Color="LimeGreen" Offset="{Binding Path=FourthOffset, Mode=TwoWay}"/>
+                </LinearGradientBrush>
+            </Border.BorderBrush>
+            <DockPanel Margin="5">
+                <Label FontWeight="SemiBold" Content="Buy Now! Limited Time Offer - All Digit Unlock %10 Off*!"/>
+                <Button Content="Yes, I will buy!"/>
+            </DockPanel>
         </Border>
     </Grid>
 </Window>

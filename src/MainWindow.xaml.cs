@@ -37,7 +37,6 @@ namespace Calculator_
                     resultDigitBorders[i].Background = new SolidColorBrush(Colors.LightGray);
                 }
             }
-
             int len = text.Length;
             for (int i = 0; i < len; i++)
             {
@@ -47,6 +46,7 @@ namespace Calculator_
                     resultDigits[i].Text = c.ToString();
                 }
             }
+            
         }
 
         private void Number_Click(object sender, RoutedEventArgs e)
@@ -80,25 +80,18 @@ namespace Calculator_
 
         private void Purchase_Click(object sender, RoutedEventArgs e)
         {
-            if (UnlockedDigits >= 8)
-            {
-                MessageBox.Show("You have already unlocked all available digits!", "Info", MessageBoxButton.OK, MessageBoxImage.Information);
-                Clear_Click(null, null);
-                return;
-            }
-
-            System.Diagnostics.Process.Start(new System.Diagnostics.ProcessStartInfo
-            {
-                Owner = this
-            };
-            s.ShowDialog();
-
-            MessageBoxResult result = MessageBox.Show("Have you completed your purchase? Click OK to unlock more digits.", "Purchase", MessageBoxButton.OKCancel, MessageBoxImage.Question);
+            /*MessageBoxResult result = MessageBox.Show("Have you completed your purchase? Click OK to unlock more digits.", "Purchase", MessageBoxButton.OKCancel, MessageBoxImage.Question);
             if (result == MessageBoxResult.OK)
             {
                 UnlockedDigits ++;
                 UpdateDefaultStyle();
-            }
+            }*/
+            Shop s = new()
+            {
+                Owner = this
+            };
+            s.ShowDialog();
+            
             Clear_Click(null, null);
         }
 
@@ -225,7 +218,6 @@ namespace Calculator_
             }
         }
 
-        /*
         private void Percent_Click(object sender, RoutedEventArgs e)
         {
             if (currentNumber != "")
@@ -239,8 +231,6 @@ namespace Calculator_
                 UpdateResultDisplay(currentNumber);
             }
         }
-
-        */
 
 
         private bool CheckResultLength(double value)

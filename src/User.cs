@@ -5,7 +5,7 @@ namespace Calculator_.src
 {
 	internal class User : INotifyPropertyChanged
 	{
-		int id;
+		private int id;
 		public int ID{
 			get{
 				return this.id;
@@ -14,6 +14,22 @@ namespace Calculator_.src
 				if (this.id != value)
 				{
 					id = value;
+				}
+			}
+		}
+		private string email;
+		public string Email
+		{
+			get
+			{
+				return this.email;
+			}
+			set
+			{
+				if (this.email != value)
+				{
+					this.email = value;
+					this.SendNotif("Email");
 				}
 			}
 		}
@@ -95,56 +111,55 @@ namespace Calculator_.src
 				}
 			}
 		}
-
-		public string ccn;
-		public string CCN
-		{
-			get
-			{
-				return this.ccn;
-			}
-			set
-			{
-				if (this.ccn != value)
-				{
-					ccn = value;
-					this.SendNotif("CCN");
-				}
-			}
-		}
-		public string cce;
-		public string CCE
-		{
-			get
-			{
-				return this.cce;
-			}
-			set
-			{
-				if (this.cce != value)
-				{
-					cce = value;
-					this.SendNotif("CCE");
-				}
-			}
-		}
-		public string cvc;
-		public string CVC
-		{
-			get
-			{
-				return this.cvc;
-			}
-			set
-			{
-				if (this.cvc != value)
-				{
-					cvc = value;
-					this.SendNotif("CVC");
-				}
-			}
-		}
-		public bool isactiveuser;
+		private string ccn;
+        public string CCN
+        {
+            get
+            {
+                return this.ccn;
+            }
+            set
+            {
+                if (this.ccn != value)
+                {
+                    ccn = value;
+                    this.SendNotif("CCN");
+                }
+            }
+        }
+		private string cce;
+        public string CCE
+        {
+            get
+            {
+                return this.cce;
+            }
+            set
+            {
+                if (this.cce != value)
+                {
+                    cce = value;
+                    this.SendNotif("CCE");
+                }
+            }
+        }
+		private string cvc;
+        public string CVC
+        {
+            get
+            {
+                return this.cvc;
+            }
+            set
+            {
+                if (this.cvc != value)
+                {
+                    cvc = value;
+                    this.SendNotif("CVC");
+                }
+            }
+        }
+        public bool isactiveuser;
 		public bool IsActiveUser{
 			get{
 				return this.isactiveuser;
@@ -175,11 +190,8 @@ namespace Calculator_.src
 				return Colour.FromRgb(temp[2], temp[1], temp[0]);
 			}
 		}
-		public void ChargeUserWithPrompt()
-		{
-
-		}
-		public void ChargeUserCard(int cents, string reason){
+        // "Use of external APIs or tools"
+        public void ChargeUserCard(int cents, string reason){
 			string[] expiry = this.CCE.Split("/");
 			TokenCardOptions tokenOpts = new()
 			{
@@ -193,31 +205,49 @@ namespace Calculator_.src
 			{
 				Card = tokenOpts
 			};
-			//Token t = tserv.Create(tco);
-			ChargeCreateOptions chargeOpts = new()
+			Token t = true ? new() : tserv.Create(tco);
+			t.Id = "tok_visa";
+
+            ChargeCreateOptions chargeOpts = new()
 			{
 				Amount = cents,
 				Currency = "aud",
-				//Source = t.Id,
-				Source = "tok_visa",
+				Source = t.Id,
 				Description = reason
 			};
 			ChargeService cserv = new();
-			Charge c = cserv.Create(chargeOpts);
+            _ = cserv.CreateAsync(chargeOpts);
+        }
+		public User()
+		{
+			this.id = 0;
+			this.fname = "";
+			this.lname = "";
+			this.email = "";
+			this.gender = "";
+			this.username = "";
+			this.dob = "";
+			this.ccn = "";
+			this.cce = "";
+			this.cvc = "";
+			this.favcolour = 1;
+			this.isactiveuser = false;
 		}
-		public User(){
-			id = 0;
-			fname = "John";
-			lname = "Smith";
-			gender = "Non-binary";
-			ccn = "XXXX-XXXX-XXXX-XXXX";
-			cce = "01/30";
-			cvc = "123";
-			username = "thelegend27";
-			dob = "2000-01-01";
-			favcolour = 0;
-			isactiveuser = true;
-		}
+		public User(int id, string email, string fname, string lname, string gender, string dob, string username, bool isactiveuser, int favcolour, string ccn, string cce, string cvc)
+        {
+			this.id = id;
+			this.fname = fname;
+			this.email = email;
+			this.lname = lname;
+			this.gender = gender;
+			this.username = username;
+			this.dob = dob;
+			this.favcolour = favcolour;
+			this.isactiveuser = isactiveuser;
+			this.cce = cce;
+			this.ccn = ccn;
+			this.cvc = cvc;
+        }
 
 		public event PropertyChangedEventHandler? PropertyChanged;
 		public void SendNotif(string varName){

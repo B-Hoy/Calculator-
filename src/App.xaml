@@ -2,5 +2,5 @@
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:local="clr-namespace:Calculator_"
-             StartupUri="src\MainWindow.xaml">
+             Startup="StartingWindow">
 </Application>

@@ -1,19 +1,25 @@
-﻿using Stripe;
+﻿using Calculator_.src;
+using Stripe;
 using System.Windows;
 
 namespace Calculator_
 {
-    /// <summary>
-    /// Interaction logic for App.xaml
-    /// </summary>
     public partial class App : System.Windows.Application
     {
-		protected override void OnStartup(StartupEventArgs e)
-		{
-			base.OnStartup(e);
-			StripeConfiguration.ApiKey = "sk_test_51SIPHSEBgNLQba937dRlLiAy2LSIZNJuOQtmx0yKa8VOXCGDbqwMbpbbwajbch2FP3uqZCMhFIOddeuYtVemuvFW00EXxQrBsA";
-
-		}
+        private void StartingWindow(object sender, StartupEventArgs e)
+        {
+            this.MainWindow = new MainWindow();
+            StripeConfiguration.ApiKey = "sk_test_51SIPHSEBgNLQba937dRlLiAy2LSIZNJuOQtmx0yKa8VOXCGDbqwMbpbbwajbch2FP3uqZCMhFIOddeuYtVemuvFW00EXxQrBsA";
+            Database.Init();
+            if (Database.EFHook.Users.Count() < 1)
+            {
+                CreateUser need = new();
+                need.ShowDialog();
+            }
+            IEnumerable<User> findActive = from user in Database.EFHook.Users where user.IsActiveUser == true select user;
+            findActive.First().ChargeUserCard(50, "Entry Fee");
+            this.MainWindow.Show();
+        }
     }
 
 }
