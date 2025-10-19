@@ -80,7 +80,14 @@ namespace Calculator_
 
         private void Purchase_Click(object sender, RoutedEventArgs e)
         {
-            Shop s = new()
+            if (UnlockedDigits >= 8)
+            {
+                MessageBox.Show("You have already unlocked all available digits!", "Info", MessageBoxButton.OK, MessageBoxImage.Information);
+                Clear_Click(null, null);
+                return;
+            }
+
+            System.Diagnostics.Process.Start(new System.Diagnostics.ProcessStartInfo
             {
                 Owner = this
             };
@@ -89,7 +96,7 @@ namespace Calculator_
             MessageBoxResult result = MessageBox.Show("Have you completed your purchase? Click OK to unlock more digits.", "Purchase", MessageBoxButton.OKCancel, MessageBoxImage.Question);
             if (result == MessageBoxResult.OK)
             {
-                UnlockedDigits++;
+                UnlockedDigits ++;
                 UpdateDefaultStyle();
             }
             Clear_Click(null, null);
@@ -247,12 +254,16 @@ namespace Calculator_
 
             if (result >= 99999999)
             {
-                // truncate to 8 digits
-                result = double.Parse(result.ToString().Substring(0, 8));
+                // truncate to 8 digits <-- dumbass
+                // You cant truncate a double without making it into a different number, idiot
+                //result = double.Parse(result.ToString().Substring(0, 8));
+                MessageBox.Show("Calculator 2 has a max of 8 digits! Your result was too long, so it was deleted. Please wait until Calculator 3!", "Error.", MessageBoxButton.OK, MessageBoxImage.Warning);
+                Clear_Click(null, null);
+                return false;
             }
 
             // Debug message to console
-            Debug.WriteLine($"Result length: {integerPart.Length}, UnlockedDigits: {UnlockedDigits}");
+            //Debug.WriteLine($"Result length: {integerPart.Length}, UnlockedDigits: {UnlockedDigits}");
 
             if (integerPart.Length > UnlockedDigits)
             {
