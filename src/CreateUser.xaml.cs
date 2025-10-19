@@ -278,7 +278,7 @@ namespace Calculator_.src
                 MessageBox.Show("CVC is invalid, please try again!");
             }
             string cce = ((ComboBoxItem)this.CCEMonths.SelectedItem).Content.ToString()!;
-            cce += $"/{((ComboBoxItem)this.CCEYears.SelectedItem).Content.ToString()}";
+            cce += $"/{((ComboBoxItem)this.CCEYears.SelectedItem).Content}";
             Database.AddUser(vars.Email, vars.FirstName, vars.LastName, vars.Gender, vars.DOB, vars.Username, vars.WillBeActive, ColourAsInt, vars.CCN, cce, vars.CVC);
 
             windowWontClose = false;

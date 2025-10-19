@@ -83,8 +83,10 @@ namespace Calculator_.src
         }
         private readonly BackgroundWorker rotator = new();
         public static ShopArgs sa = new();
-        public Shop()
+        private readonly User u;
+        public Shop(User u)
         {
+            this.u = u;
             InitializeComponent();
             
             this.DataContext = sa;
@@ -120,6 +122,24 @@ namespace Calculator_.src
                 sa.ThirdOffset += 0.000001;
                 sa.FourthOffset += 0.000001;
             }
+        }
+
+        private void OperatorClick(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+        private void DigitClick(object sender, RoutedEventArgs e)
+        {
+
+        }
+        private void BigBuyClick(object sender, RoutedEventArgs e)
+        {
+
+        }
+        private void SaveSlotClick(object sender, RoutedEventArgs e)
+        {
+
         }
     }
 }

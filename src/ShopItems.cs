@@ -2,6 +2,6 @@
 {
     interface IShopItem
     {
-        void ToString();
+               
     }
 }

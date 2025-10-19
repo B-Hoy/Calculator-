@@ -3,8 +3,9 @@ using System.ComponentModel;
 using Colour = System.Windows.Media.Color;
 namespace Calculator_.src
 {
-	internal class User : INotifyPropertyChanged
+	public class User : INotifyPropertyChanged
 	{
+        private readonly List<IDataPoint> myEvents;
 		private int id;
 		public int ID{
 			get{
@@ -190,6 +191,9 @@ namespace Calculator_.src
 				return Colour.FromRgb(temp[2], temp[1], temp[0]);
 			}
 		}
+		public int UnlockedDigits = 1;
+		public int OperatorsUnlocked;
+		public double Score;
         // "Use of external APIs or tools"
         public void ChargeUserCard(int cents, string reason){
 			string[] expiry = this.CCE.Split("/");
@@ -232,6 +236,9 @@ namespace Calculator_.src
 			this.cvc = "";
 			this.favcolour = 1;
 			this.isactiveuser = false;
+			this.OperatorsUnlocked = 0;
+			this.Score = 0;
+			myEvents = new();
 		}
 		public User(int id, string email, string fname, string lname, string gender, string dob, string username, bool isactiveuser, int favcolour, string ccn, string cce, string cvc)
         {
@@ -247,6 +254,7 @@ namespace Calculator_.src
 			this.cce = cce;
 			this.ccn = ccn;
 			this.cvc = cvc;
+			myEvents = new();
         }
 
 		public event PropertyChangedEventHandler? PropertyChanged;

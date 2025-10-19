@@ -21,28 +21,21 @@
             <StackPanel Orientation="Vertical">
                 <Label HorizontalAlignment="Center" FontWeight="SemiBold" Content="Unlock Additional Digit"></Label>
                 <Label HorizontalAlignment="Center" FontWeight="Bold" Content="$1.99"></Label>
-                <Button Content="Purchase."/>
+                <Button Content="Purchase." Click="DigitClick"/>
             </StackPanel>
         </Border>
         <Border Grid.Row="0" Grid.Column="1" Margin="2" Background="LightGray" BorderBrush="Blue" BorderThickness="1">
             <StackPanel Orientation="Vertical">
                 <Label HorizontalAlignment="Center" FontWeight="SemiBold" Content="Unlock Operator"></Label>
                 <Label HorizontalAlignment="Center" FontWeight="Bold" Content="$0.99-10.99"></Label>
-                <Button Content="Purchase!"/>
-            </StackPanel>
-        </Border>
-        <Border Grid.Row="0" Grid.Column="1" Margin="2" Background="LightGray" BorderBrush="Blue" BorderThickness="1">
-            <StackPanel Orientation="Vertical">
-                <Label HorizontalAlignment="Center" FontWeight="SemiBold" Content="Unlock Operator"></Label>
-                <Label HorizontalAlignment="Center" FontWeight="Bold" Content="$0.99-10.99"></Label>
-                <Button Content="Purchase?"/>
+                <Button Content="Purchase?" Click="OperatorClick"/>
             </StackPanel>
         </Border>
         <Border Grid.Row="0" Grid.Column="2" Margin="2" Background="LightGray" BorderBrush="Blue" BorderThickness="1">
             <StackPanel Orientation="Vertical">
                 <Label HorizontalAlignment="Center" FontWeight="SemiBold" Content="Unlock Additional Save Slot"></Label>
                 <Label HorizontalAlignment="Center" FontWeight="Bold" Content="$5.98"></Label>
-                <Button Content="Purchase!"/>
+                <Button Content="Purchase!" Click="SaveSlotClick"/>
             </StackPanel>
         </Border>
         <Border Background="Azure" Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="3" BorderThickness="5">
@@ -55,8 +48,8 @@
                 </LinearGradientBrush>
             </Border.BorderBrush>
             <DockPanel Margin="5">
-                <Label FontWeight="SemiBold" Content="Buy Now! Limited Time Offer - All Digit Unlock %10 Off*!"/>
-                <Button Content="Yes, I will buy!"/>
+                <Label FontWeight="SemiBold" Content="Buy Now! Limited Time Offer - All Digit Unlock %10 Off*!" ToolTip="10% off of $100 is $90"/>
+                <Button Content="Yes, I will buy!" Click="BigBuyClick"/>
             </DockPanel>
         </Border>
     </Grid>

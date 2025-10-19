@@ -55,14 +55,12 @@ namespace Calculator_.src{
 			conn = tempConn!;
 			conn.Open();
 			hook = new();
-			//SQLiteCommand exec = conn.CreateCommand();
-			//exec.CommandText = "CREATE TABLE IF NOT EXISTS Users(ID INTEGER PRIMARY KEY NOT NULL, Email TEXT NOT NULL, Fname TEXT NOT NULL, Lname TEXT NOT NULL, Gender TEXT NOT NULL, DOB TEXT NOT NULL, Username TEXT NOT NULL, IsActiveUser INTEGER NOT NULL, FavouriteColour INTEGER NOT NULL);";
-			//exec.ExecuteNonQuery();
 			MakeTables();
 
 		}
 		private static void MakeTables()
 		{
+			/*
 			MigrationBuilder migrationBuilder = new("Microsoft.EntityFrameworkCore.Sqlite");
             migrationBuilder.CreateTable(
                 name: "Users",
@@ -80,20 +78,24 @@ namespace Calculator_.src{
                     CCE = table.Column<string>(type: "TEXT", nullable: false),
                     CVC = table.Column<string>(type: "TEXT", nullable: false),
                     IsActiveUser = table.Column<bool>(type: "INTEGER", nullable: false),
-                    FavouriteColour = table.Column<int>(type: "INTEGER", nullable: false)
+                    FavouriteColour = table.Column<int>(type: "INTEGER", nullable: false),
+                    UnlockedDigits = table.Column<int>(type: "INTEGER", nullable: false),
+                    OperatorsUnlocked = table.Column<int>(type: "INTEGER", nullable: false),
+                    Score = table.Column<int>(type: "REAL", nullable: false)
+                    
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Users", x => x.ID);
-                });
+                });*/
 
 			var gen = EFHook.GetInfrastructure().GetService<IMigrationsSqlGenerator>()!;
 			var backConn = EFHook.GetInfrastructure().GetService<IRelationalConnection>()!;
-            var commands = gen.Generate(migrationBuilder.Operations);
+            //var commands = gen.Generate(migrationBuilder.Operations);
 			var exec = EFHook.GetInfrastructure().GetService<IMigrationCommandExecutor>()!;
 			try
 			{
-				exec.ExecuteNonQuery(commands, backConn);
+			//	exec.ExecuteNonQuery(commands, backConn);
 			}catch (TypeInitializationException) // db already exists, we don't really care
             {
 
@@ -122,7 +124,7 @@ namespace Calculator_.src{
 					u.IsActiveUser = false;
 				}
 			}
-			EFHook.Users.Add(new User(id, email, fname, lname, gender, dob, username, idList.Any() ? isactiveuser : true, favcolour, ccn, cce, cvc));
+			EFHook.Users.Add(new User(id, email, fname, lname, gender, dob, username, !idList.Any() || isactiveuser, favcolour, ccn, cce, cvc));
 			EFHook.SaveChanges();
         }
 		public static SQLiteConnection RawHook{

@@ -66,7 +66,8 @@
                 <RowDefinition Height="*"/>
             </Grid.RowDefinitions>
 
-            <Button Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="2" Content="C" FontSize="24" Click="Clear_Click"/>
+            <Button Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="1" Content="C" FontSize="24" Click="Clear_Click"/>
+            <Button Grid.Row="0" Grid.Column="1" Grid.ColumnSpan="1" Content="🏆" FontSize="24" Click="Stats_Click"/>
             <Button Grid.Row="0" Grid.Column="2" Grid.ColumnSpan="2" Content="$" FontSize="24" Click="Purchase_Click"/>
 
             <Button x:Name="ButtonSquared" Grid.Row="1" Grid.Column="0" Content="x²" FontSize="24" Click="Squared_Click" IsEnabled="False"/>

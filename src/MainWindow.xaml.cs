@@ -12,23 +12,33 @@ namespace Calculator_
         private string operation = "";
         private double result = 0;
         private bool isOperatorClicked = false;
-        public int UnlockedDigits = 1;
+        private readonly User u;
 
-        public MainWindow()
+        public MainWindow(User u)
         {
+            this.u = u;
             InitializeComponent();
             UpdateResultDisplay(currentNumber);
+            EnableUnlockedOperators();
+
+        }
+        private void EnableUnlockedOperators()
+        {
+            if (u.OperatorsUnlocked & Utils.Operators.Divide)
+            {
+
+            }
         }
 
         private void UpdateResultDisplay(string text)
         {
-            TextBlock[] resultDigits = { ResultDigit0, ResultDigit1, ResultDigit2, ResultDigit3, ResultDigit4, ResultDigit5, ResultDigit6, ResultDigit7 };
-            Border[] resultDigitBorders = { ResultDigit0Border, ResultDigit1Border, ResultDigit2Border, ResultDigit3Border, ResultDigit4Border, ResultDigit5Border, ResultDigit6Border, ResultDigit7Border };
+            TextBlock[] resultDigits = [ResultDigit0, ResultDigit1, ResultDigit2, ResultDigit3, ResultDigit4, ResultDigit5, ResultDigit6, ResultDigit7];
+            Border[] resultDigitBorders = [ResultDigit0Border, ResultDigit1Border, ResultDigit2Border, ResultDigit3Border, ResultDigit4Border, ResultDigit5Border, ResultDigit6Border, ResultDigit7Border];
 
             for (int i = 0; i < resultDigits.Length; i++)
             {
                 resultDigits[i].Text = "";
-                if (i < UnlockedDigits)
+                if (i < u.UnlockedDigits)
                 {
                     resultDigitBorders[i].Background = new SolidColorBrush(Colors.White);
                 }
@@ -52,9 +62,9 @@ namespace Calculator_
         private void Number_Click(object sender, RoutedEventArgs e)
         {
             string buttonContent = ((Button)sender).Content.ToString()!;
-            if (currentNumber.Length >= UnlockedDigits && !isOperatorClicked)
+            if (currentNumber.Length >= u.UnlockedDigits && !isOperatorClicked)
             {
-                MessageBox.Show($"Only {UnlockedDigits} Digit(s) unlocked! Please purchase additonal digits and try again!", "Error.", MessageBoxButton.OK, MessageBoxImage.Warning);
+                MessageBox.Show($"Only {u.UnlockedDigits} Digit(s) unlocked! Please purchase additonal digits and try again!", "Error.", MessageBoxButton.OK, MessageBoxImage.Warning);
                 return;
             }
 
@@ -80,18 +90,11 @@ namespace Calculator_
 
         private void Purchase_Click(object sender, RoutedEventArgs e)
         {
-            /*MessageBoxResult result = MessageBox.Show("Have you completed your purchase? Click OK to unlock more digits.", "Purchase", MessageBoxButton.OKCancel, MessageBoxImage.Question);
-            if (result == MessageBoxResult.OK)
-            {
-                UnlockedDigits ++;
-                UpdateDefaultStyle();
-            }*/
-            Shop s = new()
+            Shop s = new(u)
             {
                 Owner = this
             };
             s.ShowDialog();
-            
             Clear_Click(null, null);
         }
 
@@ -147,7 +150,7 @@ namespace Calculator_
                 }
 
                 if (!CheckResultLength(result)) return;
-
+                u.Score += result;
                 currentNumber = result.ToString();
                 UpdateResultDisplay(currentNumber);
                 operation = "";
@@ -163,20 +166,29 @@ namespace Calculator_
             UpdateResultDisplay(currentNumber);
             isOperatorClicked = false;
         }
+        private void Stats_Click(object sender, RoutedEventArgs e)
+        {
+            Statistics s = new()
+            {
+                Owner = this
+            };
+            s.ShowDialog();
+            Clear_Click(null, null);
+        }
 
         private void Decimal_Click(object sender, RoutedEventArgs e)
         {
-            if (!currentNumber.Contains("."))
+            if (!currentNumber.Contains('.'))
             {
                 if (currentNumber == "")
                 {
                     currentNumber = "0";
                 }
                 currentNumber += ".";
-                if (currentNumber.Length > UnlockedDigits + 1) // +1 for the decimal point
+                if (currentNumber.Length > u.UnlockedDigits + 1) // +1 for the decimal point
                 {
-                    MessageBox.Show($"Only {UnlockedDigits} Digit(s) unlocked! Please purchase additonal digits and try again!", "Error.", MessageBoxButton.OK, MessageBoxImage.Warning);
-                    currentNumber = currentNumber.Remove(currentNumber.Length - 1); // remove the decimal point
+                    MessageBox.Show($"Only {u.UnlockedDigits} Digit(s) unlocked! Please purchase additonal digits and try again!", "Error.", MessageBoxButton.OK, MessageBoxImage.Warning);
+                    currentNumber = currentNumber[..^1]; // remove the decimal point
                     Clear_Click(null, null);
                     return;
                 }
@@ -237,9 +249,9 @@ namespace Calculator_
         {
             //string integerPart = value.ToString().Split('.')[0];
             string integerPart = value.ToString();
-            if (integerPart.StartsWith("-"))
+            if (integerPart.StartsWith('-'))
             {
-                integerPart = integerPart.Substring(1);
+                integerPart = integerPart[1..];
             }
 
             if (result >= 99999999)
@@ -255,9 +267,9 @@ namespace Calculator_
             // Debug message to console
             //Debug.WriteLine($"Result length: {integerPart.Length}, UnlockedDigits: {UnlockedDigits}");
 
-            if (integerPart.Length > UnlockedDigits)
+            if (integerPart.Length > u.UnlockedDigits)
             {
-                MessageBox.Show($"Only {UnlockedDigits} Digit(s) unlocked! Please purchase additonal digits and try again!", "Error.", MessageBoxButton.OK, MessageBoxImage.Warning);
+                MessageBox.Show($"Only {u.UnlockedDigits} Digit(s) unlocked! Please purchase additonal digits and try again!", "Error.", MessageBoxButton.OK, MessageBoxImage.Warning);
                 Clear_Click(null, null);
                 return false;
             }

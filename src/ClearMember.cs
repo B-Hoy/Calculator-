@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Calculator_.src
 {
-    interface ClearMember
+    interface IClearMember
     {
 
     }

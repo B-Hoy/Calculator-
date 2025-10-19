@@ -5,9 +5,7 @@
 		Seperate tab on same window will have progress tracker of top podium users
 			-Make bar chart
 	-Fix up rest of calc
-	-Working login/profile create screen
 	-Report
-	-Add user profile to user creation
 
 	-Add random shit that fits the `code requirement` section of ass spec
 
