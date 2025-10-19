@@ -5,6 +5,17 @@ namespace Calculator_.src
 {
 	public class User : INotifyPropertyChanged
 	{
+        [Flags]
+        public enum Operators
+        {
+            None = 0x00000000,
+            Multiply = 0x00000001,
+            Divide = 0x00000002,
+            Square = 0x00000004,
+            Root = 0x00000008,
+            Log = 0x00000010,
+            Poly = 0x00000020
+        }
         private readonly List<IDataPoint> myEvents;
 		private int id;
 		public int ID{
@@ -192,7 +203,7 @@ namespace Calculator_.src
 			}
 		}
 		public int UnlockedDigits = 1;
-		public int OperatorsUnlocked;
+		public Operators OperatorsUnlocked;
 		public double Score;
         // "Use of external APIs or tools"
         public void ChargeUserCard(int cents, string reason){
@@ -238,7 +249,7 @@ namespace Calculator_.src
 			this.isactiveuser = false;
 			this.OperatorsUnlocked = 0;
 			this.Score = 0;
-			myEvents = new();
+			myEvents = [];
 		}
 		public User(int id, string email, string fname, string lname, string gender, string dob, string username, bool isactiveuser, int favcolour, string ccn, string cce, string cvc)
         {
@@ -254,7 +265,7 @@ namespace Calculator_.src
 			this.cce = cce;
 			this.ccn = ccn;
 			this.cvc = cvc;
-			myEvents = new();
+			myEvents = [];
         }
 
 		public event PropertyChangedEventHandler? PropertyChanged;

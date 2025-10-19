@@ -3,6 +3,7 @@ using System.Diagnostics;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media;
+using static Calculator_.src.User;
 
 namespace Calculator_
 {
@@ -24,9 +25,21 @@ namespace Calculator_
         }
         private void EnableUnlockedOperators()
         {
-            if (u.OperatorsUnlocked & Utils.Operators.Divide)
+            if ((u.OperatorsUnlocked & Operators.Divide) != 0)
             {
-
+                ButtonDivide.IsEnabled = true;
+            }
+            if ((u.OperatorsUnlocked & Operators.Multiply) != 0)
+            {
+                ButtonMultiply.IsEnabled = true;
+            }
+            if ((u.OperatorsUnlocked & Operators.Square) != 0)
+            {
+                ButtonSquared.IsEnabled = true;
+            }
+            if ((u.OperatorsUnlocked & Operators.Root) != 0)
+            {
+                ButtonSqrt.IsEnabled = true;
             }
         }
 
@@ -266,19 +279,19 @@ namespace Calculator_
 
             // if the number is a float with more decimal places than unlocked digits, truncate it
             // haven't been able to test this yet
-            if (value.ToString().Contains("."))
+            if (value.ToString().Contains('.'))
             {
                 string[] parts = value.ToString().Split('.');
                 string decimalPart = parts[1];
-                if (decimalPart.Length > UnlockedDigits)
+                if (decimalPart.Length > u.UnlockedDigits)
                 {
-                    decimalPart = decimalPart.Substring(0, UnlockedDigits);
+                    decimalPart = decimalPart[..u.UnlockedDigits];
                     value = double.Parse(parts[0] + "." + decimalPart);
                     currentNumber = value.ToString();
                     UpdateResultDisplay(currentNumber);
 
                     // Debug Message to display truncated float
-                    Debug.WriteLine($"Truncated float to {UnlockedDigits} decimal places: {currentNumber}");
+                    Debug.WriteLine($"Truncated float to {u.UnlockedDigits} decimal places: {currentNumber}");
 
 
                     return true;
