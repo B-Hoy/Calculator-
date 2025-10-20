@@ -126,7 +126,8 @@ namespace Calculator_.src
 
         private void OperatorClick(object sender, RoutedEventArgs e)
         {
-
+            PickOperator po = new((MainWindow)this.Owner);
+            po.ShowDialog();
         }
 
         private void DigitClick(object sender, RoutedEventArgs e)

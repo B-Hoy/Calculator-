@@ -59,6 +59,12 @@ namespace Calculator_
             }
         }
 
+        public void UnlockOperator(Operators op)
+        {
+            u.OperatorsUnlocked |= op;
+            EnableUnlockedOperators();
+        }
+
         private void UpdateResultDisplay(string text)
         {
             TextBlock[] resultDigits = [ResultDigit0, ResultDigit1, ResultDigit2, ResultDigit3, ResultDigit4, ResultDigit5, ResultDigit6, ResultDigit7];
