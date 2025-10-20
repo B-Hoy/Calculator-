@@ -181,7 +181,7 @@ namespace Calculator_
         }
         private void Stats_Click(object sender, RoutedEventArgs e)
         {
-            Statistics s = new()
+            Statistics s = new(u)
             {
                 Owner = this
             };
