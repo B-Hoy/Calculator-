@@ -132,7 +132,9 @@ namespace Calculator_.src
 
         private void DigitClick(object sender, RoutedEventArgs e)
         {
-
+            u.ChargeUserCard(199, "Unlocking a digit in Calculator 2!");
+            ((MainWindow)this.Owner).UnlockDigit(sender, e);
+            this.Close();
         }
         private void BigBuyClick(object sender, RoutedEventArgs e)
         {

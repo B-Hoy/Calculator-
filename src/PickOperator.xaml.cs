@@ -54,8 +54,7 @@ namespace Calculator_.src
         }
 
         private void PurchasePressed(object sender, RoutedEventArgs e)
-        {
-            // Send stripe the operator selected
+        { 
             PurchaseCompleted(sender, e);
         }
 

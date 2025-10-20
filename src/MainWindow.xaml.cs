@@ -271,6 +271,11 @@ namespace Calculator_
             }
         }
 
+        public void UnlockDigit(object sender, RoutedEventArgs e)
+        {
+            u.UnlockedDigits++;
+            UpdateResultDisplay(currentNumber);
+        }
 
         private bool CheckResultLength(double value)
         {
