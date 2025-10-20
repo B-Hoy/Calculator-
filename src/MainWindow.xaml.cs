@@ -164,6 +164,7 @@ namespace Calculator_
 
                 if (!CheckResultLength(result)) return;
                 u.Score += result;
+                MessageBox.Show(u.Score.ToString());
                 currentNumber = result.ToString();
                 UpdateResultDisplay(currentNumber);
                 operation = "";
@@ -175,7 +176,7 @@ namespace Calculator_
                         u.AddScore(50, "Reached 50 math!");
                         break;
                     case var _ when u.Score >= 25:
-                        u.AddScore(25, "Reached 25 math!");
+                        u.AddScore(90, "Reached 25 math!");
                         break;
                     case var _ when u.Score >= 1:
                         u.AddScore(1, "Math baby");

@@ -60,7 +60,7 @@ namespace Calculator_.src
             return 4;
         }
     }
-    class Divide(Button val) : AOperator(val)
+    public class Divide(Button val) : AOperator(val)
     {
         public override double Evaluate<T>(List<T> args)
         {
