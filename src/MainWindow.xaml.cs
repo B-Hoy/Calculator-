@@ -1,4 +1,4 @@
-using Calculator_.src;
+﻿using Calculator_.src;
 using System.Diagnostics;
 using System.Windows;
 using System.Windows.Controls;
@@ -14,32 +14,48 @@ namespace Calculator_
         private double result = 0;
         private bool isOperatorClicked = false;
         private readonly User u;
+        private readonly Dictionary<char, AOperator> ops;
 
         public MainWindow(User u)
         {
             this.u = u;
             InitializeComponent();
             UpdateResultDisplay(currentNumber);
+            ops = new()
+            {
+                { '+', (Add)new(ButtonAdd) },
+                { '-', (Subtract)new(ButtonSubtract) },
+                { '/', (Divide)new(ButtonDivide) },
+                { '%', (Percent)new(ButtonPercent) },
+                { '√', (Root)new(ButtonSqrt) },
+                { '²', (Square)new(ButtonSquared) },
+                { 'x', (Multiply)new(ButtonMultiply) }
+            };
             EnableUnlockedOperators();
 
         }
         private void EnableUnlockedOperators()
         {
+            ops['/'].Enable();
+            if ((u.OperatorsUnlocked & Operators.Percent) != 0)
+            {
+                ops['%'].Enable();
+            }
             if ((u.OperatorsUnlocked & Operators.Divide) != 0)
             {
-                ButtonDivide.IsEnabled = true;
+                ops['/'].Enable();
             }
             if ((u.OperatorsUnlocked & Operators.Multiply) != 0)
             {
-                ButtonMultiply.IsEnabled = true;
+                ops['x'].Enable();
             }
             if ((u.OperatorsUnlocked & Operators.Square) != 0)
             {
-                ButtonSquared.IsEnabled = true;
+                ops['²'].Enable();
             }
             if ((u.OperatorsUnlocked & Operators.Root) != 0)
             {
-                ButtonSqrt.IsEnabled = true;
+                ops['√'].Enable();
             }
         }
 
@@ -96,7 +112,7 @@ namespace Calculator_
             {
                 result = double.Parse(currentNumber);
                 isOperatorClicked = true;
-                operation = ((Button)sender).Content.ToString()!;
+                operation = ((Button)sender).Name == "ButtonSquared" ? "²" :  ((Button)sender).Content.ToString()!;
                 UpdateResultDisplay(operation);
             }
         }
@@ -134,32 +150,10 @@ namespace Calculator_
                     ButtonSqrt.IsEnabled = true;
                 }
 
-                switch (operation)
+                result = ops[operation.First()].Evaluate([result, secondNumber]);
+                if (operation == "/" && result == 0) // this would be a divide-by-zero error being caught
                 {
-                    case "+":
-                        result += secondNumber;
-                        break;
-                    case "-":
-                        result -= secondNumber;
-                        break;
-                    case "x":
-                        result *= secondNumber;
-                        break;
-                    case "/":
-                        if(secondNumber != 0)
-                        {
-                            result /= secondNumber;
-                        }
-                        else
-                        {
-                            MessageBox.Show("Cannot divide by zero");
-                            Clear_Click(null, null);
-                            return;
-                        }
-                        break;
-                    case "%":
-                        result = (result / 100) * secondNumber;
-                        break;
+                    Clear_Click(null, null);
                 }
 
                 if (!CheckResultLength(result)) return;
@@ -167,6 +161,20 @@ namespace Calculator_
                 currentNumber = result.ToString();
                 UpdateResultDisplay(currentNumber);
                 operation = "";
+                switch (u.Score){
+                    case var _ when u.Score >= 100:
+                        u.AddScore(100, "Reached 100 math!");
+                        break;
+                    case var _ when u.Score >= 50:
+                        u.AddScore(50, "Reached 50 math!");
+                        break;
+                    case var _ when u.Score >= 25:
+                        u.AddScore(25, "Reached 25 math!");
+                        break;
+                    case var _ when u.Score >= 1:
+                        u.AddScore(1, "Math baby");
+                        break;
+                }
             }
             isOperatorClicked = false;
         }

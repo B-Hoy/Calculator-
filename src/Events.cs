@@ -1,31 +1,51 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace Calculator_.src
+﻿namespace Calculator_.src
 {
-    class UnlockOperator : IDataPoint
+    class UnlockOperator : DataPoint
     {
-        public int GetAsscUser()
+        public UnlockOperator(double opWeight, long timeCreate, long timeNow, string ev)
         {
-            throw new NotImplementedException();
+            this.Freq = timeNow - timeCreate;
+            this.Desc = ev;
+            this.Val = opWeight;
+        }
+        private readonly double Freq;
+        private readonly string Desc;
+        private readonly double Val;
+        public override string GetDesc()
+        {
+            return Desc;
         }
 
-        public string GetDesc()
+        public override double GetFreq()
         {
-            throw new NotImplementedException();
+            return Freq;
         }
 
-        public double GetFreq()
+        public override double GetValue()
         {
-            throw new NotImplementedException();
+            return Val;
+        }
+    }
+    public class ScoreMilestone(double score, long timeCreate, long timeNow, string ev) : DataPoint
+    {
+        private readonly long Freq = timeNow - timeCreate;
+        private readonly string Desc = ev;
+        private readonly double Val = score;
+
+
+        public override string GetDesc()
+        {
+            return Desc;
         }
 
-        public double GetValue()
+        public override double GetFreq()
         {
-            throw new NotImplementedException();
+            return Freq;
+        }
+
+        public override double GetValue()
+        {
+            return Val;
         }
     }
 }

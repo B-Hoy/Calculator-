@@ -5,18 +5,8 @@ namespace Calculator_.src
 {
 	public class User : INotifyPropertyChanged
 	{
-        [Flags]
-        public enum Operators
-        {
-            None = 0x00000000,
-            Multiply = 0x00000001,
-            Divide = 0x00000002,
-            Square = 0x00000004,
-            Root = 0x00000008,
-            Log = 0x00000010,
-            Poly = 0x00000020
-        }
-        private readonly List<IDataPoint> myEvents;
+		private long DateCreated;
+        public readonly List<DataPoint> myEvents;
 		private int id;
 		public int ID{
 			get{
@@ -233,6 +223,7 @@ namespace Calculator_.src
 			ChargeService cserv = new();
             _ = cserv.CreateAsync(chargeOpts);
         }
+		// constructor that SQLite uses
 		public User()
 		{
 			this.id = 0;
@@ -251,6 +242,7 @@ namespace Calculator_.src
 			this.Score = 0;
 			myEvents = [];
 		}
+		// constructor that we use
 		public User(int id, string email, string fname, string lname, string gender, string dob, string username, bool isactiveuser, int favcolour, string ccn, string cce, string cvc)
         {
 			this.id = id;
@@ -265,10 +257,19 @@ namespace Calculator_.src
 			this.cce = cce;
 			this.ccn = ccn;
 			this.cvc = cvc;
-			myEvents = [];
+			this.DateCreated = DateTimeOffset.UtcNow.ToUnixTimeSeconds();
+            myEvents = [];
+        }
+		public void AddUnlock(double score, string reason)
+		{
+			myEvents.Add((UnlockOperator)new(score, DateCreated, DateTimeOffset.UtcNow.ToUnixTimeSeconds(), reason));
+		}
+        public void AddScore(double score, string reason)
+        {
+            myEvents.Add((ScoreMilestone)new(score, DateCreated, DateTimeOffset.UtcNow.ToUnixTimeSeconds(), reason));
         }
 
-		public event PropertyChangedEventHandler? PropertyChanged;
+        public event PropertyChangedEventHandler? PropertyChanged;
 		public void SendNotif(string varName){
 			if (this.PropertyChanged != null)
 			{
