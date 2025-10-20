@@ -1,12 +1,11 @@
-﻿using Stripe;
+﻿using Microsoft.EntityFrameworkCore;
+using Stripe;
 using System.ComponentModel;
 using Colour = System.Windows.Media.Color;
 namespace Calculator_.src
 {
 	public class User : INotifyPropertyChanged
 	{
-		private long DateCreated;
-        public readonly List<DataPoint> myEvents;
 		private int id;
 		public int ID{
 			get{
@@ -19,7 +18,22 @@ namespace Calculator_.src
 				}
 			}
 		}
-		private string email;
+        private long datecreated;
+        public long DateCreated
+        {
+            get
+            {
+                return this.datecreated;
+            }
+            set
+            {
+                if (this.datecreated != value)
+                {
+                    datecreated = value;
+                }
+            }
+        }
+        private string email;
 		public string Email
 		{
 			get
@@ -192,9 +206,9 @@ namespace Calculator_.src
 				return Colour.FromRgb(temp[2], temp[1], temp[0]);
 			}
 		}
-		public int UnlockedDigits = 1;
-		public Operators OperatorsUnlocked;
-		public double Score;
+		public int UnlockedDigits { get; set; } = 1;
+		public Operators OperatorsUnlocked { get; set; }
+		public double Score { get; set; }
         // "Use of external APIs or tools"
         public void ChargeUserCard(int cents, string reason){
 			string[] expiry = this.CCE.Split("/");
@@ -240,7 +254,7 @@ namespace Calculator_.src
 			this.isactiveuser = false;
 			this.OperatorsUnlocked = 0;
 			this.Score = 0;
-			myEvents = [];
+			
 		}
 		// constructor that we use
 		public User(int id, string email, string fname, string lname, string gender, string dob, string username, bool isactiveuser, int favcolour, string ccn, string cce, string cvc)
@@ -258,15 +272,18 @@ namespace Calculator_.src
 			this.ccn = ccn;
 			this.cvc = cvc;
 			this.DateCreated = DateTimeOffset.UtcNow.ToUnixTimeSeconds();
-            myEvents = [];
         }
 		public void AddUnlock(double score, string reason)
 		{
-			myEvents.Add((UnlockOperator)new(score, DateCreated, DateTimeOffset.UtcNow.ToUnixTimeSeconds(), reason));
+            int max = Database.EFHook.Points.Any() ? Database.EFHook.Points.OrderByDescending(e => e.Id).First().Id : 1;
+            Database.EFHook.Points.Add((UnlockOperator)new(max + 1, this.id, score, DateCreated, DateTimeOffset.UtcNow.ToUnixTimeSeconds(), reason));
+			Database.EFHook.SaveChanges();
 		}
         public void AddScore(double score, string reason)
         {
-            myEvents.Add((ScoreMilestone)new(score, DateCreated, DateTimeOffset.UtcNow.ToUnixTimeSeconds(), reason));
+			int max = Database.EFHook.Points.Any() ? Database.EFHook.Points.OrderByDescending(e => e.Id).First().Id : 1;
+            Database.EFHook.Points.Add((ScoreMilestone)new(max + 1, this.id, score, DateCreated, DateTimeOffset.UtcNow.ToUnixTimeSeconds(), reason));
+            Database.EFHook.SaveChanges();
         }
 
         public event PropertyChangedEventHandler? PropertyChanged;

@@ -15,6 +15,7 @@ namespace Calculator_.src{
     // "Use of Entity Framework"
     internal class SQLiteContext : DbContext{
 		internal DbSet<User> Users { get; set; }
+		internal DbSet<DataPoint> Points { get; set; }
 		public SQLiteContext() : base()
 		{
 		}
@@ -60,14 +61,47 @@ namespace Calculator_.src{
 		}
 		private static void MakeTables()
 		{
-			/*
+			
 			MigrationBuilder migrationBuilder = new("Microsoft.EntityFrameworkCore.Sqlite");
+            migrationBuilder.CreateTable(
+                name: "Points",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "INTEGER", nullable: false)
+                        .Annotation("Sqlite:Autoincrement", true),
+                    ParentId = table.Column<int>(type: "INTEGER", nullable: false),
+                    Freq = table.Column<long>(type: "INTEGER", nullable: false),
+                    Desc = table.Column<string>(type: "TEXT", nullable: false),
+                    Val = table.Column<double>(type: "REAL", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Points", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Points",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "INTEGER", nullable: false)
+                        .Annotation("Sqlite:Autoincrement", true),
+                    ParentId = table.Column<int>(type: "INTEGER", nullable: false),
+                    Freq = table.Column<long>(type: "INTEGER", nullable: false),
+                    Desc = table.Column<string>(type: "TEXT", nullable: false),
+                    Val = table.Column<double>(type: "REAL", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Points", x => x.Id);
+                });
+
             migrationBuilder.CreateTable(
                 name: "Users",
                 columns: table => new
                 {
                     ID = table.Column<int>(type: "INTEGER", nullable: false)
                         .Annotation("Sqlite:Autoincrement", true),
+                    DateCreated = table.Column<long>(type: "INTEGER", nullable: false),
                     Email = table.Column<string>(type: "TEXT", nullable: false),
                     Fname = table.Column<string>(type: "TEXT", nullable: false),
                     Lname = table.Column<string>(type: "TEXT", nullable: false),
@@ -81,21 +115,20 @@ namespace Calculator_.src{
                     FavouriteColour = table.Column<int>(type: "INTEGER", nullable: false),
                     UnlockedDigits = table.Column<int>(type: "INTEGER", nullable: false),
                     OperatorsUnlocked = table.Column<int>(type: "INTEGER", nullable: false),
-                    Score = table.Column<int>(type: "REAL", nullable: false)
-                    
+                    Score = table.Column<double>(type: "REAL", nullable: false)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Users", x => x.ID);
-                });*/
+                });
 
-			var gen = EFHook.GetInfrastructure().GetService<IMigrationsSqlGenerator>()!;
+            var gen = EFHook.GetInfrastructure().GetService<IMigrationsSqlGenerator>()!;
 			var backConn = EFHook.GetInfrastructure().GetService<IRelationalConnection>()!;
-            //var commands = gen.Generate(migrationBuilder.Operations);
+            var commands = gen.Generate(migrationBuilder.Operations);
 			var exec = EFHook.GetInfrastructure().GetService<IMigrationCommandExecutor>()!;
 			try
 			{
-			//	exec.ExecuteNonQuery(commands, backConn);
+				exec.ExecuteNonQuery(commands, backConn);
 			}catch (TypeInitializationException) // db already exists, we don't really care
             {
 
@@ -108,7 +141,7 @@ namespace Calculator_.src{
 
         }
 		// \/ This is empty for the sole purpose of initialising the DB, accessing a static method will start it, even if it doesn't do anything
-		public static void Init()
+		public static void BeginIt()
 		{
 
 		}

@@ -1,4 +1,6 @@
-﻿using static System.Formats.Asn1.AsnWriter;
+﻿using Microsoft.EntityFrameworkCore;
+using System.ComponentModel.DataAnnotations.Schema;
+using static System.Formats.Asn1.AsnWriter;
 
 namespace Calculator_.src
 {
@@ -8,19 +10,30 @@ namespace Calculator_.src
         double GetValue();
         string GetDesc();
     }
-    public abstract class DataPoint : IDataPoint
+    public class DataPoint : IDataPoint
     {
-        private long Freq;
-        private string Desc;
-        private double Val;
+        public int Id { get; set; }
+        public int ParentId { get; set; }
+        public long Freq { get; set; }
+        public string Desc { get; set; }
+        public double Val { get; set; }
         public DataPoint()
         {
             Freq = 0;
             Desc = "";
             Val = 0;
         }
-        public abstract string GetDesc();
-        public abstract double GetFreq();
-        public abstract double GetValue();
+        public string GetDesc()
+        {
+            return "";
+        }
+        public double GetFreq()
+        {
+            return 0;
+        }
+        public double GetValue()
+        {
+            return 0;
+        }
     }
 }
