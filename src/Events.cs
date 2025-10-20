@@ -2,48 +2,59 @@
 {
     class UnlockOperator : DataPoint
     {
-        public UnlockOperator(double opWeight, long timeCreate, long timeNow, string ev)
+        public UnlockOperator(int id, int pid, double opWeight, long timeCreate, long timeNow, string ev)
         {
+            this.Id = id;
+            this.ParentId = pid;
             this.Freq = timeNow - timeCreate;
             this.Desc = ev;
             this.Val = opWeight;
         }
-        private readonly double Freq;
-        private readonly string Desc;
-        private readonly double Val;
-        public override string GetDesc()
+        public UnlockOperator()
+        {
+            
+        }
+        public new string GetDesc()
         {
             return Desc;
         }
 
-        public override double GetFreq()
+        public new double GetFreq()
         {
             return Freq;
         }
 
-        public override double GetValue()
+        public new double GetValue()
         {
             return Val;
         }
     }
-    public class ScoreMilestone(double score, long timeCreate, long timeNow, string ev) : DataPoint
+    public class ScoreMilestone : DataPoint
     {
-        private readonly long Freq = timeNow - timeCreate;
-        private readonly string Desc = ev;
-        private readonly double Val = score;
+        public ScoreMilestone()
+        {
 
+        }
+        public ScoreMilestone(int id, int pid, double score, long timeCreate, long timeNow, string ev)
+        {
+            this.Id = id;
+            this.ParentId = pid;
+            this.Val = score;
+            this.Freq = timeNow - timeCreate;
+            this.Desc = ev;
+        }
 
-        public override string GetDesc()
+        public new string GetDesc()
         {
             return Desc;
         }
 
-        public override double GetFreq()
+        public new double GetFreq()
         {
             return Freq;
         }
 
-        public override double GetValue()
+        public new double GetValue()
         {
             return Val;
         }

@@ -4,7 +4,8 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Calculator_.src"
-        xmlns:charting="clr-namespace:System.Windows.Controls.DataVisualization.Charting;assembly=System.Windows.Controls.DataVisualization.Toolkit"
+        xmlns:charting="clr-namespace:System.Windows.Controls.DataVisualization.Charting;assembly=DotNetProjects.DataVisualization.Toolkit"
+        xmlns:dv="clr-namespace:System.Windows.Controls.DataVisualization;assembly=DotNetProjects.DataVisualization.Toolkit"
         mc:Ignorable="d"
         Title="Statistics" Height="450" Width="800">
     <Grid>
@@ -15,7 +16,7 @@
 
         <StackPanel Grid.Row="0" Orientation="Horizontal" HorizontalAlignment="Center" Margin="0,10,0,10">
             <Button Content="Prev" Click="PrevClick" Margin="0,0,10,0"/>
-            <TextBlock x:Name="userName" Text="User Name" VerticalAlignment="Center"/>
+            <TextBlock x:Name="userName" Text="" VerticalAlignment="Center"/>
             <Button Content="Next" Click="NextClick" Margin="10,0,0,0"/>
         </StackPanel>
 
@@ -28,9 +29,19 @@
             <Border Grid.Column="0" BorderBrush="Black" BorderThickness="1" Margin="10">
                 <Grid>
                     <TextBlock Text="Calculation Activity" HorizontalAlignment="Center" VerticalAlignment="Top" FontSize="16" FontWeight="Bold" Margin="0,5,0,0"/>
-                    <Viewbox>
-                        
-                    </Viewbox>
+                    <charting:Chart x:Name="TheChart">
+                        <charting:Chart.LegendStyle>
+                            <Style TargetType="dv:Legend">
+                                <Setter Property="Visibility" Value="Hidden" />
+                            </Style>
+                        </charting:Chart.LegendStyle>
+                        <charting:LineSeries x:Name="TheLine" Title="Achievement Progress" IndependentValuePath="Key" DependentValuePath="Value">
+                        </charting:LineSeries>
+                        <charting:Chart.Axes>
+                            <charting:LinearAxis Orientation="X" Minimum="0" Maximum="100"/>
+                            <charting:LinearAxis Orientation="Y" Minimum="0" Maximum="100"/>
+                        </charting:Chart.Axes>
+                    </charting:Chart>
                 </Grid>
             </Border>
 
