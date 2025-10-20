@@ -21,7 +21,7 @@ namespace Calculator_.src
         Poly =      0x00000020,
         Percent =   0x00000040
     }
-    abstract class AOperator(Button val) : IOperator
+    public abstract class AOperator(Button val) : IOperator
     {
         private readonly Button myButton = val;
 

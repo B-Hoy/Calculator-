@@ -10,6 +10,7 @@ using SQLitePCL;
 using System.Data.SQLite;
 using System.IO;
 using System.Security.Policy;
+using System.Windows;
 using static Microsoft.EntityFrameworkCore.DbLoggerCategory.Database;
 namespace Calculator_.src{
     // "Use of Entity Framework"
@@ -80,22 +81,6 @@ namespace Calculator_.src{
                 });
 
             migrationBuilder.CreateTable(
-                name: "Points",
-                columns: table => new
-                {
-                    Id = table.Column<int>(type: "INTEGER", nullable: false)
-                        .Annotation("Sqlite:Autoincrement", true),
-                    ParentId = table.Column<int>(type: "INTEGER", nullable: false),
-                    Freq = table.Column<long>(type: "INTEGER", nullable: false),
-                    Desc = table.Column<string>(type: "TEXT", nullable: false),
-                    Val = table.Column<double>(type: "REAL", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Points", x => x.Id);
-                });
-
-            migrationBuilder.CreateTable(
                 name: "Users",
                 columns: table => new
                 {
@@ -131,7 +116,6 @@ namespace Calculator_.src{
 				exec.ExecuteNonQuery(commands, backConn);
 			}catch (TypeInitializationException) // db already exists, we don't really care
             {
-
 			}
 			catch (Exception e)
 			{
