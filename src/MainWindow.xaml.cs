@@ -36,7 +36,6 @@ namespace Calculator_
         }
         private void EnableUnlockedOperators()
         {
-            ops['/'].Enable();
             if ((u.OperatorsUnlocked & Operators.Percent) != 0)
             {
                 ops['%'].Enable();
@@ -164,7 +163,7 @@ namespace Calculator_
 
                 if (!CheckResultLength(result)) return;
                 u.Score += result;
-                MessageBox.Show(u.Score.ToString());
+                //MessageBox.Show(u.Score.ToString());
                 currentNumber = result.ToString();
                 UpdateResultDisplay(currentNumber);
                 operation = "";
@@ -275,6 +274,12 @@ namespace Calculator_
         public void UnlockDigit(object sender, RoutedEventArgs e)
         {
             u.UnlockedDigits++;
+            UpdateResultDisplay(currentNumber);
+        }
+
+        public void UnlockAllDigits(object sender, RoutedEventArgs e)
+        {
+            u.UnlockedDigits = 8;
             UpdateResultDisplay(currentNumber);
         }
 

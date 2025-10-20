@@ -6,12 +6,12 @@ namespace Calculator_.src
     public partial class PickOperator : Window
     {
         public Operators SelectedOperator { get; private set; }
-        private readonly MainWindow mainWindow;
+        private readonly Shop shop;
 
-        public PickOperator(MainWindow mainWindow)
+        public PickOperator(Shop shop)
         {
             InitializeComponent();
-            this.mainWindow = mainWindow;
+            this.shop = shop;
         }
 
         private void OperatorSelector_SelectionChanged(object sender, SelectionChangedEventArgs e)
@@ -55,16 +55,9 @@ namespace Calculator_.src
 
         private void PurchasePressed(object sender, RoutedEventArgs e)
         { 
-            PurchaseCompleted(sender, e);
-        }
-
-        private void PurchaseCompleted(object sender, RoutedEventArgs e)
-        {
-            if (SelectedOperator != Operators.None)
-            {
-                mainWindow.UnlockOperator(SelectedOperator);
-            }
-            Close();
+            // Close this window and send SelectedOperator to OperatorClick function in Shop
+            shop.OperatorUnlock(sender, e, SelectedOperator);
+            this.Close();
         }
     }
 }

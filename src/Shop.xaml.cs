@@ -126,7 +126,7 @@ namespace Calculator_.src
 
         private void OperatorClick(object sender, RoutedEventArgs e)
         {
-            PickOperator po = new((MainWindow)this.Owner);
+            PickOperator po = new(this);
             po.ShowDialog();
         }
 
@@ -138,11 +138,20 @@ namespace Calculator_.src
         }
         private void BigBuyClick(object sender, RoutedEventArgs e)
         {
-
+            u.ChargeUserCard(1432, "Unlocked all digits in Calculator 2!");
+            ((MainWindow)this.Owner).UnlockAllDigits(sender, e);
+            this.Close();
         }
         private void SaveSlotClick(object sender, RoutedEventArgs e)
         {
 
+        }
+
+        public void OperatorUnlock(object sender, RoutedEventArgs e, Operators op)
+        {
+            u.ChargeUserCard(299, "Unlocked an operator in Calculator 2!");
+            ((MainWindow)this.Owner).UnlockOperator(op);
+            this.Close();
         }
     }
 }
