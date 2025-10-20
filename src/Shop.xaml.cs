@@ -144,7 +144,12 @@ namespace Calculator_.src
         }
         private void SaveSlotClick(object sender, RoutedEventArgs e)
         {
-
+            MessageBoxResult result = MessageBox.Show("Save slots will be available in Calculator 3! Press OK to donate to support future development, and secure your spot on the waiting list!", "Support Future Development", MessageBoxButton.OKCancel, MessageBoxImage.Information);
+            if (result == MessageBoxResult.OK)
+            {
+                u.ChargeUserCard(499, "Donated to support future development!");
+                this.Close();
+            }
         }
 
         public void OperatorUnlock(object sender, RoutedEventArgs e, Operators op)
