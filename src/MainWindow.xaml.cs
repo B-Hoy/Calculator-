@@ -15,6 +15,7 @@ namespace Calculator_
         private bool isOperatorClicked = false;
         private readonly User u;
         private readonly Dictionary<char, AOperator> ops;
+        private readonly List<string> calculationHistory = new List<string>();
 
         public MainWindow(User u)
         {
@@ -62,6 +63,7 @@ namespace Calculator_
         {
             u.OperatorsUnlocked |= op;
             EnableUnlockedOperators();
+            Database.EFHook.SaveChanges();
         }
 
         private void UpdateResultDisplay(string text)
@@ -155,7 +157,9 @@ namespace Calculator_
                     ButtonSqrt.IsEnabled = true;
                 }
 
+                double firstOperand = result;
                 result = ops[operation.First()].Evaluate([result, secondNumber]);
+                calculationHistory.Add($"{firstOperand} {operation} {secondNumber} = {result}");
                 if (operation == "/" && result == 0) // this would be a divide-by-zero error being caught
                 {
                     Clear_Click(null, null);
@@ -195,7 +199,7 @@ namespace Calculator_
         }
         private void Stats_Click(object sender, RoutedEventArgs e)
         {
-            Statistics s = new(u)
+            Statistics s = new(u, calculationHistory)
             {
                 Owner = this
             };

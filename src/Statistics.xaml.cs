@@ -8,12 +8,16 @@ namespace Calculator_.src
     {
         private User currentUser;
 
-        public Statistics(User user)
+        public Statistics(User user, List<string> calculations)
         {
             InitializeComponent();
             currentUser = user;
             GenerateGraph();
             userName.Text = user.Username;
+            foreach (string calculation in calculations)
+            {
+                calculationsList.Items.Add(calculation);
+            }
         }
         
         private void GenerateGraph()
@@ -25,18 +29,6 @@ namespace Calculator_.src
                 a++;
             }
             TheLine.ItemsSource = stats;
-        }
-
-        private void PrevClick(object sender, RoutedEventArgs e)
-        {
-            
-                
-            
-        }
-
-        private void NextClick(object sender, RoutedEventArgs e)
-        {
-
         }
     }
 }

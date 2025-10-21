@@ -7,7 +7,7 @@
         xmlns:charting="clr-namespace:System.Windows.Controls.DataVisualization.Charting;assembly=DotNetProjects.DataVisualization.Toolkit"
         xmlns:dv="clr-namespace:System.Windows.Controls.DataVisualization;assembly=DotNetProjects.DataVisualization.Toolkit"
         mc:Ignorable="d"
-        Title="Statistics" Height="450" Width="800">
+        Title="Statistics for Current Session" Height="450" Width="800">
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto"/>
@@ -15,9 +15,7 @@
         </Grid.RowDefinitions>
 
         <StackPanel Grid.Row="0" Orientation="Horizontal" HorizontalAlignment="Center" Margin="0,10,0,10">
-            <Button Content="Prev" Click="PrevClick" Margin="0,0,10,0"/>
             <TextBlock x:Name="userName" Text="" VerticalAlignment="Center"/>
-            <Button Content="Next" Click="NextClick" Margin="10,0,0,0"/>
         </StackPanel>
 
         <Grid Grid.Row="1">
